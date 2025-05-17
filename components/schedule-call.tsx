@@ -2,10 +2,11 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { CalendarIcon, Clock, Loader2 } from "lucide-react"
+import { CalendarIcon, Clock, Loader2, CheckCircle, Video, AlertCircle } from "lucide-react"
 import { format } from "date-fns"
+import { useForm } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -16,47 +17,177 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 
+type FormData = {
+  name: string
+  email: string
+  topic: string
+}
+
 export function ScheduleCall() {
   const { toast } = useToast()
   const [date, setDate] = useState<Date>()
   const [time, setTime] = useState<string>()
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [topic, setTopic] = useState("")
+  const [duration, setDuration] = useState<string>("30") // Default to 30 minutes
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [calendarLink, setCalendarLink] = useState<string | null>(null)
+  const [zoomLink, setZoomLink] = useState<string | null>(null)
+  
+  // New states for availability
+  const [availableTimeSlots, setAvailableTimeSlots] = useState<string[]>([])
+  const [isCheckingAvailability, setIsCheckingAvailability] = useState(false)
+  const [noAvailableTimes, setNoAvailableTimes] = useState(false)
 
-  const timeSlots = ["09:00 AM", "10:00 AM", "11:00 AM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM"]
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    setValue,
+    getValues,
+  } = useForm<FormData>({
+    mode: "onBlur" // Validate on blur to provide immediate feedback
+  })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const defaultTimeSlots = ["09:00 AM", "10:00 AM", "11:00 AM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM"]
 
-    if (!date || !time || !name || !email) {
+  // Check availability when date changes
+  useEffect(() => {
+    if (date) {
+      checkAvailability(date);
+    }
+  }, [date, duration]); // Also recheck availability when duration changes
+  
+  // Function to check availability for a selected date
+  const checkAvailability = async (selectedDate: Date) => {
+    setIsCheckingAvailability(true);
+    setTime(undefined); // Reset time selection when date or duration changes
+    setNoAvailableTimes(false);
+    
+    try {
+      const response = await fetch('/api/available-times', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          date: selectedDate.toISOString(),
+          duration, // Pass duration to the API
+        }),
+      });
+      
+      const result = await response.json();
+      
+      if (response.ok && result.availableTimes) {
+        setAvailableTimeSlots(result.availableTimes);
+        setNoAvailableTimes(result.availableTimes.length === 0);
+      } else {
+        // If API fails, show all time slots
+        setAvailableTimeSlots(defaultTimeSlots);
+        console.error('Error checking availability:', result.error);
+      }
+    } catch (error) {
+      console.error('Error checking availability:', error);
+      setAvailableTimeSlots(defaultTimeSlots);
+    } finally {
+      setIsCheckingAvailability(false);
+    }
+  };
+
+  const onSubmit = async (data: FormData) => {
+    if (!date || !time) {
       toast({
         variant: "destructive",
         title: "Missing information",
-        description: "Please fill in all required fields.",
+        description: "Please select both a date and time for your call.",
       })
       return
     }
 
     setIsSubmitting(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      const response = await fetch('/api/schedule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          date: date.toISOString(),
+          time,
+          duration, // Add duration
+          topic: data.topic,
+        }),
+      });
 
-    toast({
-      title: "Call scheduled!",
-      description: `Your call is scheduled for ${format(date, "PPP")} at ${time}.`,
-    })
+      const result = await response.json();
 
-    // Reset form
-    setDate(undefined)
-    setTime(undefined)
-    setName("")
-    setEmail("")
-    setTopic("")
-    setIsSubmitting(false)
+      if (!response.ok) {
+        // Handle specific error cases
+        if (response.status === 409) { // Conflict - time slot not available
+          toast({
+            variant: "destructive",
+            title: "Time slot not available",
+            description: "This time slot is no longer available. Please choose another time.",
+          });
+          
+          // Refresh available times
+          if (date) {
+            checkAvailability(date);
+          }
+          throw new Error('Time slot not available');
+        } else {
+          throw new Error(result.error || 'Failed to schedule call');
+        }
+      }
+
+      // Save links if available
+      if (result.calendarLink) {
+        setCalendarLink(result.calendarLink);
+      }
+      
+      if (result.zoomLink) {
+        setZoomLink(result.zoomLink);
+      }
+
+      toast({
+        title: "Call scheduled!",
+        description: `Your ${formatDuration(duration)} meeting is scheduled for ${format(date, "PPP")} at ${time}.`,
+      })
+
+      // Reset form fields but keep the confirmation state
+      reset()
+      setDate(undefined)
+      setTime(undefined)
+      setDuration("30") // Reset duration too
+    } catch (error: any) {
+      if (error.message !== 'Time slot not available') {
+        console.error('Error scheduling call:', error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error.message || "Failed to schedule call. Please try again later.",
+        });
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
   }
+
+  const resetForm = () => {
+    setZoomLink(null);
+    setCalendarLink(null);
+    reset();
+    setDate(undefined);
+    setTime(undefined);
+    setDuration("30"); // Reset duration too
+  };
+
+  const formatDuration = (mins: string) => {
+    if (mins === "60") return "1 hour";
+    return `${mins} minutes`;
+  };
 
   return (
     <motion.div
@@ -70,112 +201,263 @@ export function ScheduleCall() {
         {/* Gradient accent in the corner */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 rounded-bl-full -z-10"></div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Select Date</label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-full justify-start text-left font-normal border-gradient-start/30",
-                      !date && "text-muted-foreground",
-                    )}
+        {zoomLink ? (
+          <div className="text-center py-6">
+            <div className="flex flex-col items-center justify-center py-8 space-y-4">
+              <div className="w-16 h-16 bg-[#2D8CFF] rounded-full flex items-center justify-center">
+                <CheckCircle className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl font-medium mt-4">Call Successfully Scheduled!</h3>
+              <p className="text-muted-foreground max-w-md">
+                Your {formatDuration(duration)} meeting has been added to the calendar. You'll receive a confirmation email with details.
+              </p>
+
+              <div className="w-full mt-8 p-6 bg-gradient-start/5 rounded-lg border border-gradient-start/10">
+                <div className="flex items-center space-x-3 mb-4">
+                  <Video className="h-5 w-5 text-[#2D8CFF]" />
+                  <h4 className="font-medium">Zoom Meeting Details</h4>
+                </div>
+                <a 
+                  href={zoomLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-block bg-[#2D8CFF] hover:opacity-90 text-white py-3 px-6 rounded-md mb-3 w-full md:w-auto"
+                >
+                  Join Zoom Meeting
+                </a>
+                
+                {calendarLink && (
+                  <a 
+                    href={calendarLink} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-block bg-[#4285F4] hover:bg-[#3367d6] text-white py-3 px-6 rounded-md ml-0 mt-3 md:ml-3 md:mt-0 w-full md:w-auto"
                   >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "PPP") : "Select a date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    initialFocus
-                    disabled={(date) =>
-                      date < new Date(new Date().setHours(0, 0, 0, 0)) || date.getDay() === 0 || date.getDay() === 6
-                    }
-                  />
-                </PopoverContent>
-              </Popover>
+                    Add to Google Calendar
+                  </a>
+                )}
+              </div>
+              
+              <Button 
+                onClick={resetForm} 
+                variant="outline" 
+                className="mt-6"
+              >
+                Schedule Another Call
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Select Date <span className="text-destructive">*</span></label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full justify-start text-left font-normal border-gradient-start/30",
+                        !date && "text-muted-foreground",
+                        errors.name && !date && "border-destructive",
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date ? format(date, "PPP") : "Select a date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                      disabled={(date) =>
+                        date < new Date(new Date().setHours(0, 0, 0, 0)) || date.getDay() === 0 || date.getDay() === 6
+                      }
+                    />
+                  </PopoverContent>
+                </Popover>
+                {errors.name && !date && (
+                  <p className="text-sm text-destructive flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" /> Date is required
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Select Time <span className="text-destructive">*</span>
+                  {isCheckingAvailability && <span className="ml-2 text-xs text-muted-foreground">(Checking availability...)</span>}
+                </label>
+                <Select 
+                  onValueChange={setTime} 
+                  disabled={isCheckingAvailability || !date || noAvailableTimes}
+                >
+                  <SelectTrigger className={cn(
+                    "w-full border-gradient-start/30",
+                    errors.name && !time && "border-destructive",
+                  )}>
+                    <SelectValue placeholder={
+                      isCheckingAvailability 
+                        ? "Checking availability..." 
+                        : noAvailableTimes
+                          ? "No available times" 
+                          : !date
+                            ? "Select a date first"
+                            : "Select a time slot"
+                    }>
+                      {time ? (
+                        <div className="flex items-center">
+                          <Clock className="mr-2 h-4 w-4" />
+                          {time}
+                        </div>
+                      ) : (
+                        isCheckingAvailability 
+                          ? "Checking availability..." 
+                          : noAvailableTimes
+                            ? "No available times"
+                            : !date
+                              ? "Select a date first"
+                              : "Select a time slot"
+                      )}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableTimeSlots.length > 0 ? (
+                      availableTimeSlots.map((slot) => (
+                        <SelectItem key={slot} value={slot}>
+                          {slot}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <div className="p-2 text-center text-muted-foreground">
+                        {noAvailableTimes ? "No available times on this date" : "Select a date to see available times"}
+                      </div>
+                    )}
+                  </SelectContent>
+                </Select>
+                {errors.name && !time && (
+                  <p className="text-sm text-destructive flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" /> Time is required
+                  </p>
+                )}
+                {noAvailableTimes && date && (
+                  <p className="text-xs text-amber-500 mt-1">
+                    No available times on this date. Please select another date.
+                  </p>
+                )}
+              </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium">Select Time</label>
-              <Select onValueChange={setTime}>
+              <label className="text-sm font-medium">Meeting Duration <span className="text-destructive">*</span></label>
+              <Select 
+                value={duration}
+                onValueChange={setDuration} 
+              >
                 <SelectTrigger className="w-full border-gradient-start/30">
-                  <SelectValue placeholder="Select a time slot">
-                    {time ? (
-                      <div className="flex items-center">
-                        <Clock className="mr-2 h-4 w-4" />
-                        {time}
-                      </div>
-                    ) : (
-                      "Select a time slot"
-                    )}
+                  <SelectValue placeholder="Select meeting duration">
+                    {formatDuration(duration)}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  {timeSlots.map((slot) => (
-                    <SelectItem key={slot} value={slot}>
-                      {slot}
-                    </SelectItem>
-                  ))}
+                  <SelectItem value="30">30 minutes</SelectItem>
+                  <SelectItem value="45">45 minutes</SelectItem>
+                  <SelectItem value="60">1 hour</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Your Name</label>
-            <Input
-              placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="border-gradient-start/30 focus:border-gradient-start"
-            />
-          </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Your Name <span className="text-destructive">*</span></label>
+              <Input
+                placeholder="Enter your name"
+                {...register("name", { required: "Name is required" })}
+                className={cn(
+                  "border-gradient-start/30 focus:border-gradient-start",
+                  errors.name && "border-destructive"
+                )}
+              />
+              {errors.name && (
+                <p className="text-sm text-destructive flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" /> {errors.name.message}
+                </p>
+              )}
+            </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Your Email</label>
-            <Input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="border-gradient-start/30 focus:border-gradient-start"
-            />
-          </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Your Email <span className="text-destructive">*</span></label>
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Please enter a valid email address",
+                  },
+                  validate: {
+                    validFormat: (value) => {
+                      // Additional validation to ensure email has correct format
+                      return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value) || 
+                        "Invalid email format. Please check your email address";
+                    }
+                  }
+                })}
+                className={cn(
+                  "border-gradient-start/30 focus:border-gradient-start",
+                  errors.email && "border-destructive"
+                )}
+              />
+              {errors.email && (
+                <p className="text-sm text-destructive flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" /> {errors.email.message}
+                </p>
+              )}
+            </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium">What would you like to discuss?</label>
-            <Textarea
-              placeholder="Brief description of what you'd like to discuss"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              rows={3}
-              className="border-gradient-start/30 focus:border-gradient-start"
-            />
-          </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">What would you like to discuss? <span className="text-destructive">*</span></label>
+              <Textarea
+                placeholder="Brief description of what you'd like to discuss"
+                {...register("topic", { required: "Topic is required" })}
+                rows={3}
+                className={cn(
+                  "border-gradient-start/30 focus:border-gradient-start",
+                  errors.topic && "border-destructive"
+                )}
+              />
+              {errors.topic && (
+                <p className="text-sm text-destructive flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" /> {errors.topic.message}
+                </p>
+              )}
+            </div>
+            
+            <div className="space-y-2">
+              <p className="text-xs text-muted-foreground">
+                By scheduling a call, you'll receive a confirmation email with a Zoom meeting link and calendar invitation.
+                <br/>The call will be {formatDuration(duration)} in duration.
+              </p>
+            </div>
 
-          <Button
-            type="submit"
-            className="w-full bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Scheduling...
-              </>
-            ) : (
-              "Schedule Call"
-            )}
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
+              disabled={isSubmitting || isCheckingAvailability || !date || !time || noAvailableTimes}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Scheduling...
+                </>
+              ) : (
+                "Schedule Call"
+              )}
+            </Button>
+          </form>
+        )}
       </div>
     </motion.div>
   )

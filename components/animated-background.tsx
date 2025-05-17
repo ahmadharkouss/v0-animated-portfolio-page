@@ -1,7 +1,41 @@
 "use client"
 import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
+
+// Define a type for the particles
+type Particle = {
+  id: number;
+  width: number;
+  height: number;
+  left: string;
+  top: string;
+  xMove: number;
+  yMove: number;
+  duration: number;
+  delay: number;
+};
 
 export function AnimatedBackground() {
+  // State to hold the particles, initially empty
+  const [particles, setParticles] = useState<Particle[]>([]);
+  
+  // Generate particles only on the client side to avoid hydration errors
+  useEffect(() => {
+    const generatedParticles = Array.from({ length: 20 }).map((_, i) => ({
+      id: i,
+      width: Math.floor(Math.random() * 100 + 50),
+      height: Math.floor(Math.random() * 100 + 50),
+      left: `${Math.floor(Math.random() * 100)}%`,
+      top: `${Math.floor(Math.random() * 100)}%`,
+      xMove: Math.floor(Math.random() * 100 - 50),
+      yMove: Math.floor(Math.random() * 100 - 50),
+      duration: Math.floor(Math.random() * 20 + 10),
+      delay: Math.floor(Math.random() * 5)
+    }));
+    
+    setParticles(generatedParticles);
+  }, []);
+  
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
       <motion.div
@@ -54,26 +88,27 @@ export function AnimatedBackground() {
         }}
       />
 
-      {Array.from({ length: 20 }).map((_, i) => (
+      {/* Only render particles if they have been generated on the client */}
+      {particles.map((particle) => (
         <motion.div
-          key={i}
+          key={particle.id}
           className="absolute rounded-full bg-gradient-to-r from-gradient-start/10 to-gradient-end/10"
           style={{
-            width: Math.random() * 100 + 50,
-            height: Math.random() * 100 + 50,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            width: particle.width,
+            height: particle.height,
+            left: particle.left,
+            top: particle.top,
           }}
           animate={{
-            x: [0, Math.random() * 100 - 50],
-            y: [0, Math.random() * 100 - 50],
+            x: [0, particle.xMove],
+            y: [0, particle.yMove],
             opacity: [0, 0.3, 0],
           }}
           transition={{
-            duration: Math.random() * 20 + 10,
+            duration: particle.duration,
             repeat: Number.POSITIVE_INFINITY,
             repeatType: "reverse",
-            delay: Math.random() * 5,
+            delay: particle.delay,
           }}
         />
       ))}

@@ -52,6 +52,38 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // New masculine colors
+        navy: {
+          light: "#3B82F6",
+          DEFAULT: "#1D4ED8",
+          dark: "#1E40AF",
+        },
+        slate: {
+          light: "#64748B",
+          DEFAULT: "#475569",
+          dark: "#334155",
+        },
+        emerald: {
+          light: "#10B981",
+          DEFAULT: "#059669",
+          dark: "#047857",
+        },
+        amber: {
+          light: "#F59E0B",
+          DEFAULT: "#D97706",
+          dark: "#B45309",
+        },
+        burgundy: {
+          light: "#9F1239",
+          DEFAULT: "#881337",
+          dark: "#6B0F2B",
+        },
+        // Add these new gradient colors
+        gradient: {
+          start: "#8a2387",
+          middle: "#e94057",
+          end: "#f27121",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -67,10 +99,25 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        shimmer: {
+          "100%": {
+            transform: "translateX(100%)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        shimmer: "shimmer 2s infinite",
+      },
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "hero-gradient": "linear-gradient(to right, #8a2387, #e94057, #f27121)",
+        "section-gradient":
+          "linear-gradient(to right, rgba(138, 35, 135, 0.1), rgba(233, 64, 87, 0.1), rgba(242, 113, 33, 0.1))",
+        "card-gradient": "linear-gradient(to bottom right, #8a2387, #e94057, #f27121)",
+        "button-gradient": "linear-gradient(to right, #8a2387, #e94057, #f27121)",
+        "text-gradient": "linear-gradient(to right, #8a2387, #e94057, #f27121)",
       },
     },
   },

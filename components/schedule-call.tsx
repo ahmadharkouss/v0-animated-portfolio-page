@@ -66,7 +66,10 @@ export function ScheduleCall() {
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      <div className="bg-card border rounded-lg p-6 shadow-sm">
+      <div className="bg-card border border-gradient-start/20 rounded-lg p-6 shadow-sm relative">
+        {/* Gradient accent in the corner */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 rounded-bl-full -z-10"></div>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
@@ -75,7 +78,10 @@ export function ScheduleCall() {
                 <PopoverTrigger asChild>
                   <Button
                     variant={"outline"}
-                    className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                    className={cn(
+                      "w-full justify-start text-left font-normal border-gradient-start/30",
+                      !date && "text-muted-foreground",
+                    )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {date ? format(date, "PPP") : "Select a date"}
@@ -98,7 +104,7 @@ export function ScheduleCall() {
             <div className="space-y-2">
               <label className="text-sm font-medium">Select Time</label>
               <Select onValueChange={setTime}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full border-gradient-start/30">
                   <SelectValue placeholder="Select a time slot">
                     {time ? (
                       <div className="flex items-center">
@@ -123,7 +129,13 @@ export function ScheduleCall() {
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Your Name</label>
-            <Input placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} required />
+            <Input
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="border-gradient-start/30 focus:border-gradient-start"
+            />
           </div>
 
           <div className="space-y-2">
@@ -134,6 +146,7 @@ export function ScheduleCall() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="border-gradient-start/30 focus:border-gradient-start"
             />
           </div>
 
@@ -144,10 +157,15 @@ export function ScheduleCall() {
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               rows={3}
+              className="border-gradient-start/30 focus:border-gradient-start"
             />
           </div>
 
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            className="w-full bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -3,21 +3,23 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { ExternalLink } from "lucide-react"
+import { ArrowRight, Clock } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
-interface ProjectCardProps {
+interface CaseStudyCardProps {
+  id: string
   title: string
   description: string
   image: string
-  tags: string[]
-  link: string
+  industry: string
+  duration: string
+  technologies: string[]
 }
 
-export function ProjectCard({ title, description, image, tags, link }: ProjectCardProps) {
+export function CaseStudyCard({ id, title, description, image, industry, duration, technologies }: CaseStudyCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -36,6 +38,11 @@ export function ProjectCard({ title, description, image, tags, link }: ProjectCa
           transition={{ duration: 0.3 }}
         >
           <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover" />
+          <div className="absolute top-4 left-4">
+            <Badge className="bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end text-white">
+              {industry}
+            </Badge>
+          </div>
           <motion.div
             className="absolute inset-0 bg-gradient-to-br from-gradient-start/30 via-gradient-middle/30 to-gradient-end/30 opacity-0"
             whileHover={{ opacity: 1 }}
@@ -43,20 +50,24 @@ export function ProjectCard({ title, description, image, tags, link }: ProjectCa
           />
         </motion.div>
         <CardHeader>
-          <CardTitle>{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
+          <CardTitle className="line-clamp-2">{title}</CardTitle>
+          <CardDescription className="flex items-center gap-1 text-sm">
+            <Clock className="h-4 w-4" />
+            {duration}
+          </CardDescription>
         </CardHeader>
         <CardContent className="flex-grow">
+          <p className="text-muted-foreground mb-4 line-clamp-3">{description}</p>
           <div className="flex flex-wrap gap-2">
-            {tags.map((tag, index) => (
+            {technologies.map((tech, index) => (
               <motion.div
-                key={tag}
+                key={tech}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}
               >
                 <Badge variant="outline" className="border-gradient-start/30 bg-gradient-start/5">
-                  {tag}
+                  {tech}
                 </Badge>
               </motion.div>
             ))}
@@ -66,11 +77,11 @@ export function ProjectCard({ title, description, image, tags, link }: ProjectCa
           <motion.div className="w-full" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <Button
               asChild
-              variant="outline"
-              className="w-full border-gradient-start/30 hover:bg-gradient-to-r hover:from-gradient-start/10 hover:via-gradient-middle/10 hover:to-gradient-end/10"
+              variant="default"
+              className="w-full bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
             >
-              <Link href={link}>
-                View Project <ExternalLink className="ml-2 h-4 w-4" />
+              <Link href={`/case-studies/${id}`}>
+                View Case Study <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </motion.div>

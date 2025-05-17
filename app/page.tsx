@@ -129,95 +129,161 @@ export default function Home() {
         </header>
 
         <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-          <motion.div
-            style={{ y, opacity }}
-            className="container relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-24 md:pt-16"
-          >
-            {/* Left side - Text content */}
-            <motion.div className="flex flex-col items-start text-left gap-6">
-              <motion.h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mt-8 md:mt-0"
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
+          <motion.div style={{ y, opacity }} className="container relative z-10 pt-24 md:pt-16">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+              {/* Left side - Text content */}
+              <motion.div className="flex flex-col items-start text-left gap-6 md:col-span-7">
+                <motion.h1
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mt-8 md:mt-0"
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.8,
+                    type: "spring",
+                    stiffness: 100,
+                  }}
+                >
+                  Hi I am{" "}
+                  <GradientText animate className="block">
+                    Ahmad Harkous
+                  </GradientText>
+                </motion.h1>
+
+                <motion.p
+                  className="text-2xl md:text-3xl font-medium"
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <GradientText>IOT & Edge Computing Engineer</GradientText>
+                </motion.p>
+
+                <motion.p
+                  className="max-w-[600px] text-lg text-muted-foreground"
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  A passionate developer creating innovative solutions at the intersection of hardware and software.
+                </motion.p>
+
+                <motion.div
+                  className="flex flex-col sm:flex-row gap-4 mt-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                >
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button
+                      asChild
+                      size="lg"
+                      className="bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
+                    >
+                      <Link href="#projects">
+                        View My Work <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      asChild
+                      className="border-2 border-gradient-start/30 hover:border-gradient-middle/50 transition-colors"
+                    >
+                      <Link href="#contact">Get In Touch</Link>
+                    </Button>
+                  </motion.div>
+                </motion.div>
+              </motion.div>
+
+              {/* Right side - Image */}
+              <motion.div
+                className="md:col-span-5 flex justify-center md:justify-end relative"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{
                   duration: 0.8,
                   type: "spring",
-                  stiffness: 100,
+                  bounce: 0.4,
                 }}
               >
-                Hi I am{" "}
-                <GradientText animate className="block">
-                  Ahmad Harkous
-                </GradientText>
-              </motion.h1>
+                {/* Decorative elements */}
+                <motion.div
+                  className="absolute -z-10 w-64 h-64 rounded-full bg-gradient-start/10 blur-3xl"
+                  style={{ top: "10%", right: "20%" }}
+                  animate={{
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{
+                    duration: 8,
+                    repeat: Number.POSITIVE_INFINITY,
+                    repeatType: "reverse",
+                  }}
+                />
 
-              <motion.p
-                className="text-2xl md:text-3xl font-medium"
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                <GradientText>IOT & Edge Computing Engineer</GradientText>
-              </motion.p>
+                <motion.div
+                  className="absolute -z-10 w-48 h-48 rounded-full bg-gradient-end/10 blur-3xl"
+                  style={{ bottom: "10%", left: "20%" }}
+                  animate={{
+                    scale: [1, 1.3, 1],
+                  }}
+                  transition={{
+                    duration: 10,
+                    repeat: Number.POSITIVE_INFINITY,
+                    repeatType: "reverse",
+                    delay: 1,
+                  }}
+                />
 
-              <motion.p
-                className="max-w-[600px] text-lg text-muted-foreground"
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                A passionate developer creating innovative solutions at the intersection of hardware and software.
-              </motion.p>
+                {/* Image container with floating animation */}
+                <motion.div
+                  className="relative z-10"
+                  animate={{
+                    y: [0, -10, 0],
+                  }}
+                  transition={{
+                    duration: 6,
+                    repeat: Number.POSITIVE_INFINITY,
+                    repeatType: "reverse",
+                  }}
+                >
+                  <AnimatedImage
+                    src="/images/ahmad-profile.png"
+                    alt="Ahmad Harkous"
+                    width={380}
+                    height={480}
+                    className="rounded-2xl shadow-xl"
+                    priority={true}
+                  />
 
-              <motion.div
-                className="flex flex-col sm:flex-row gap-4 mt-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-              >
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button
-                    asChild
-                    size="lg"
-                    className="bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
-                  >
-                    <Link href="#projects">
-                      View My Work <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    asChild
-                    className="border-2 border-gradient-start/30 hover:border-gradient-middle/50 transition-colors"
-                  >
-                    <Link href="#contact">Get In Touch</Link>
-                  </Button>
+                  {/* Decorative dots */}
+                  <div className="absolute -left-4 top-1/4 flex flex-col gap-2">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <motion.div
+                        key={i}
+                        className="w-2 h-2 rounded-full bg-gradient-start"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.8 + i * 0.1 }}
+                      />
+                    ))}
+                  </div>
+
+                  <div className="absolute -right-4 top-1/3 flex flex-col gap-2">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <motion.div
+                        key={i}
+                        className="w-2 h-2 rounded-full bg-gradient-end"
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.8 + i * 0.1 }}
+                      />
+                    ))}
+                  </div>
                 </motion.div>
               </motion.div>
-            </motion.div>
-
-            {/* Right side - Image */}
-            <motion.div
-              className="flex justify-center md:justify-end mt-8 md:mt-0"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{
-                duration: 0.8,
-                type: "spring",
-                bounce: 0.4,
-              }}
-            >
-              <AnimatedImage
-                src="/images/ahmad-profile.png"
-                alt="Ahmad Harkous"
-                width={400}
-                height={500}
-                className="rounded-2xl"
-              />
-            </motion.div>
+            </div>
           </motion.div>
 
           <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/0 to-background" />
@@ -231,6 +297,7 @@ export default function Home() {
           </motion.div>
         </section>
 
+        {/* Rest of the page content remains the same */}
         <motion.section
           id="about"
           className="py-20 md:py-32 bg-background"
@@ -239,6 +306,7 @@ export default function Home() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
+          {/* About section content */}
           <div className="container">
             <div className="flex flex-col items-center text-center mb-12">
               <AnimatedTitle title="About Me" className="text-3xl md:text-4xl font-bold mb-4" />
@@ -253,6 +321,7 @@ export default function Home() {
           </div>
         </motion.section>
 
+        {/* Rest of the sections remain unchanged */}
         <motion.section
           id="projects"
           className="py-20 md:py-32"

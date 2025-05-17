@@ -10,7 +10,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ContactForm } from "@/components/contact-form"
 import { ScheduleCall } from "@/components/schedule-call"
 import { ProjectCard } from "@/components/project-card"
-import { BlogCard } from "@/components/blog-card"
 import { ResumeSection } from "@/components/resume-section"
 import { CaseStudyCard } from "@/components/case-study-card"
 import { AnimatedBackground } from "@/components/animated-background"
@@ -18,6 +17,7 @@ import { AnimatedTitle } from "@/components/animated-title"
 import { PageTransition } from "@/components/page-transition"
 import { AnimatedImage } from "@/components/animated-image"
 import { GradientText } from "@/components/gradient-text"
+import { AboutProfile } from "@/components/about-profile"
 
 export default function Home() {
   const ref = useRef(null)
@@ -82,9 +82,6 @@ export default function Home() {
               <Link href="#case-studies" className="text-sm font-medium hover:text-gradient-start transition-colors">
                 Case Studies
               </Link>
-              <Link href="#blog" className="text-sm font-medium hover:text-gradient-start transition-colors">
-                Blog
-              </Link>
               <Link href="#contact" className="text-sm font-medium hover:text-gradient-start transition-colors">
                 Contact
               </Link>
@@ -116,9 +113,6 @@ export default function Home() {
                   >
                     Case Studies
                   </Link>
-                  <Link href="#blog" className="text-lg font-medium hover:text-gradient-start transition-colors">
-                    Blog
-                  </Link>
                   <Link href="#contact" className="text-lg font-medium hover:text-gradient-start transition-colors">
                     Contact
                   </Link>
@@ -134,15 +128,15 @@ export default function Home() {
           </div>
         </header>
 
-        <section ref={ref} className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
           <motion.div
             style={{ y, opacity }}
-            className="container relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-16"
+            className="container relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-24 md:pt-16"
           >
             {/* Left side - Text content */}
             <motion.div className="flex flex-col items-start text-left gap-6">
               <motion.h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mt-8 md:mt-0"
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
@@ -207,7 +201,7 @@ export default function Home() {
 
             {/* Right side - Image */}
             <motion.div
-              className="flex justify-center md:justify-end"
+              className="flex justify-center md:justify-end mt-8 md:mt-0"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{
@@ -216,7 +210,13 @@ export default function Home() {
                 bounce: 0.4,
               }}
             >
-              <AnimatedImage src="/placeholder.svg?height=500&width=400" alt="Ahmad Harkous" width={400} height={500} />
+              <AnimatedImage
+                src="/images/ahmad-profile.png"
+                alt="Ahmad Harkous"
+                width={400}
+                height={500}
+                className="rounded-2xl"
+              />
             </motion.div>
           </motion.div>
 
@@ -233,7 +233,7 @@ export default function Home() {
 
         <motion.section
           id="about"
-          className="py-20 md:py-32 bg-gradient-to-r from-gradient-start/5 via-gradient-middle/5 to-gradient-end/5"
+          className="py-20 md:py-32 bg-background"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -243,6 +243,7 @@ export default function Home() {
             <div className="flex flex-col items-center text-center mb-12">
               <AnimatedTitle title="About Me" className="text-3xl md:text-4xl font-bold mb-4" />
               <div className="w-20 h-1 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end mb-8"></div>
+              <AboutProfile />
               <p className="max-w-[800px] text-muted-foreground text-lg">
                 I'm a passionate IOT & Edge Computing Engineer with expertise in building innovative solutions that
                 bridge the gap between hardware and software. Here's a glimpse of my professional journey and skills.
@@ -346,60 +347,6 @@ export default function Home() {
               >
                 <Link href="/case-studies">
                   View All Case Studies <FileText className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </motion.section>
-
-        <motion.section
-          id="blog"
-          className="py-20 md:py-32"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="container">
-            <div className="flex flex-col items-center text-center mb-12">
-              <AnimatedTitle title="Blog & Articles" className="text-3xl md:text-4xl font-bold mb-4" />
-              <div className="w-20 h-1 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end mb-8"></div>
-              <p className="max-w-[800px] text-muted-foreground text-lg">
-                I share my thoughts and insights on technology, development, and industry trends.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <BlogCard
-                title="Understanding React Hooks"
-                excerpt="Learn how to use React Hooks to simplify your components and manage state effectively."
-                date="May 15, 2023"
-                image="/placeholder.svg?height=200&width=400"
-                link="#"
-              />
-              <BlogCard
-                title="The Future of Web Development"
-                excerpt="Exploring emerging technologies and trends that will shape the future of web development."
-                date="April 22, 2023"
-                image="/placeholder.svg?height=200&width=400"
-                link="#"
-              />
-              <BlogCard
-                title="Optimizing Website Performance"
-                excerpt="Tips and techniques to improve your website's loading speed and overall performance."
-                date="March 10, 2023"
-                image="/placeholder.svg?height=200&width=400"
-                link="#"
-              />
-            </div>
-            <div className="flex justify-center mt-12">
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-2 border-gradient-start/30 hover:border-gradient-middle/50 transition-colors"
-              >
-                <Link href="/blog">
-                  Read More Articles <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>

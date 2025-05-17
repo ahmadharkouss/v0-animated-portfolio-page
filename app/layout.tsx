@@ -10,6 +10,14 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Ahmad Harkous | IoT & Edge Computing Engineer",
   description: "Portfolio website of Ahmad Harkous, IoT & Edge Computing Engineer",
+  icons: {
+    icon: [
+      {
+        url: "/images/ahmad-profile.png",
+        href: "/images/ahmad-profile.png",
+      },
+    ],
+  },
     generator: 'v0.dev'
 }
 

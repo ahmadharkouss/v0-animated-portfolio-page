@@ -14,7 +14,7 @@ export function AboutProfile() {
     >
       <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white bg-white">
         <Image
-          src="/images/ahmad-profile.png"
+          src="/images/profile-pic.png"
           alt="Ahmad Harkous"
           fill
           className="object-cover"

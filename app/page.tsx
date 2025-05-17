@@ -197,7 +197,7 @@ export default function Home() {
                     }}
                   >
                     <AnimatedImage
-                      src="/images/ahmad-profile.png"
+                      src="/images/profile-pic.png"
                       alt="Ahmad Harkous"
                       width={380}
                       height={480}

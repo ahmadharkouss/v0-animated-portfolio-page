@@ -13,8 +13,8 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/images/ahmad-profile.png",
-        href: "/images/ahmad-profile.png",
+        url: "/images/profile-pic.png",
+        href: "/images/profile-pic.png",
       },
     ],
   },

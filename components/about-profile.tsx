@@ -18,9 +18,21 @@ export function AboutProfile() {
           alt="Ahmad Harkous"
           fill
           className="object-cover"
-          style={{ backgroundColor: "white" }}
+          style={{
+            backgroundColor: "white",
+            objectPosition: "center 30%", // Moved up by adjusting vertical position from 50% (default) to 30%
+          }}
         />
       </div>
+
+      {/* Simple subtle glow effect */}
+      <motion.div
+        className="absolute inset-0 rounded-full shadow-lg"
+        style={{ boxShadow: "0 0 20px rgba(138, 35, 135, 0.15)" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+      />
     </motion.div>
   )
 }

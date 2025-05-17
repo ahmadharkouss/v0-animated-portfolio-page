@@ -3,10 +3,9 @@
 import { useRef } from "react"
 import Link from "next/link"
 import { motion, useScroll, useTransform } from "framer-motion"
-import { ArrowRight, ChevronDown, Mail, Menu, MessageSquare, FileText } from "lucide-react"
+import { ArrowRight, ChevronDown, Mail, MessageSquare, FileText } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ContactForm } from "@/components/contact-form"
 import { ScheduleCall } from "@/components/schedule-call"
 import { ProjectCard } from "@/components/project-card"
@@ -17,6 +16,7 @@ import { AnimatedTitle } from "@/components/animated-title"
 import { PageTransition } from "@/components/page-transition"
 import { AnimatedImage } from "@/components/animated-image"
 import { GradientText } from "@/components/gradient-text"
+import { HeaderWithProgress } from "@/components/header-with-progress"
 import { AboutProfile } from "@/components/about-profile"
 
 export default function Home() {
@@ -67,66 +67,7 @@ export default function Home() {
     <PageTransition>
       <div className="min-h-screen bg-background">
         <AnimatedBackground />
-        <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-sm border-b">
-          <div className="container flex h-16 items-center justify-between">
-            <Link href="/" className="font-bold text-xl">
-              <GradientText animate>Ahmad Harkous</GradientText>
-            </Link>
-            <nav className="hidden md:flex items-center gap-6">
-              <Link href="#about" className="text-sm font-medium hover:text-gradient-start transition-colors">
-                About
-              </Link>
-              <Link href="#projects" className="text-sm font-medium hover:text-gradient-start transition-colors">
-                Projects
-              </Link>
-              <Link href="#case-studies" className="text-sm font-medium hover:text-gradient-start transition-colors">
-                Case Studies
-              </Link>
-              <Link href="#contact" className="text-sm font-medium hover:text-gradient-start transition-colors">
-                Contact
-              </Link>
-              <Button
-                asChild
-                className="bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
-              >
-                <Link href="#schedule">Schedule a Call</Link>
-              </Button>
-            </nav>
-            <Sheet>
-              <SheetTrigger asChild className="md:hidden">
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Toggle menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <div className="flex flex-col gap-4 mt-8">
-                  <Link href="#about" className="text-lg font-medium hover:text-gradient-start transition-colors">
-                    About
-                  </Link>
-                  <Link href="#projects" className="text-lg font-medium hover:text-gradient-start transition-colors">
-                    Projects
-                  </Link>
-                  <Link
-                    href="#case-studies"
-                    className="text-lg font-medium hover:text-gradient-start transition-colors"
-                  >
-                    Case Studies
-                  </Link>
-                  <Link href="#contact" className="text-lg font-medium hover:text-gradient-start transition-colors">
-                    Contact
-                  </Link>
-                  <Button
-                    asChild
-                    className="mt-2 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
-                  >
-                    <Link href="#schedule">Schedule a Call</Link>
-                  </Button>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </header>
+        <HeaderWithProgress />
 
         <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
           <motion.div style={{ y, opacity }} className="container relative z-10 pt-24 md:pt-16">
@@ -297,7 +238,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* Rest of the page content remains the same */}
+        {/* About section with profile image re-added */}
         <motion.section
           id="about"
           className="py-20 md:py-32 bg-background"
@@ -306,7 +247,6 @@ export default function Home() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          {/* About section content */}
           <div className="container">
             <div className="flex flex-col items-center text-center mb-12">
               <AnimatedTitle title="About Me" className="text-3xl md:text-4xl font-bold mb-4" />
@@ -376,6 +316,7 @@ export default function Home() {
           </div>
         </motion.section>
 
+        {/* Rest of the code remains unchanged */}
         {/* Case Studies Section */}
         <motion.section
           id="case-studies"

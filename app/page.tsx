@@ -18,6 +18,7 @@ import { AnimatedImage } from "@/components/animated-image"
 import { GradientText } from "@/components/gradient-text"
 import { HeaderWithProgress } from "@/components/header-with-progress"
 import { AboutProfile } from "@/components/about-profile"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 export default function Home() {
   const ref = useRef(null)
@@ -28,6 +29,9 @@ export default function Home() {
 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+
+  // Use the mobile detection hook
+  const isMobile = useIsMobile()
 
   // Featured case studies for the homepage
   const featuredCaseStudies = [
@@ -73,7 +77,9 @@ export default function Home() {
           <motion.div style={{ y, opacity }} className="container relative z-10 pt-24 md:pt-16">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
               {/* Left side - Text content */}
-              <motion.div className="flex flex-col items-start text-left gap-6 md:col-span-7">
+              <motion.div
+                className={`flex flex-col items-start text-left gap-6 ${isMobile ? "col-span-12" : "md:col-span-7"}`}
+              >
                 <motion.h1
                   className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mt-8 md:mt-0"
                   initial={{ opacity: 0, x: -50 }}
@@ -138,92 +144,94 @@ export default function Home() {
                 </motion.div>
               </motion.div>
 
-              {/* Right side - Image */}
-              <motion.div
-                className="md:col-span-5 flex justify-center md:justify-end relative"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{
-                  duration: 0.8,
-                  type: "spring",
-                  bounce: 0.4,
-                }}
-              >
-                {/* Decorative elements */}
+              {/* Right side - Image - Only show on non-mobile devices */}
+              {!isMobile && (
                 <motion.div
-                  className="absolute -z-10 w-64 h-64 rounded-full bg-gradient-start/10 blur-3xl"
-                  style={{ top: "10%", right: "20%" }}
-                  animate={{
-                    scale: [1, 1.2, 1],
-                  }}
+                  className="md:col-span-5 flex justify-center md:justify-end relative"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{
-                    duration: 8,
-                    repeat: Number.POSITIVE_INFINITY,
-                    repeatType: "reverse",
-                  }}
-                />
-
-                <motion.div
-                  className="absolute -z-10 w-48 h-48 rounded-full bg-gradient-end/10 blur-3xl"
-                  style={{ bottom: "10%", left: "20%" }}
-                  animate={{
-                    scale: [1, 1.3, 1],
-                  }}
-                  transition={{
-                    duration: 10,
-                    repeat: Number.POSITIVE_INFINITY,
-                    repeatType: "reverse",
-                    delay: 1,
-                  }}
-                />
-
-                {/* Image container with floating animation */}
-                <motion.div
-                  className="relative z-10"
-                  animate={{
-                    y: [0, -10, 0],
-                  }}
-                  transition={{
-                    duration: 6,
-                    repeat: Number.POSITIVE_INFINITY,
-                    repeatType: "reverse",
+                    duration: 0.8,
+                    type: "spring",
+                    bounce: 0.4,
                   }}
                 >
-                  <AnimatedImage
-                    src="/images/ahmad-profile.png"
-                    alt="Ahmad Harkous"
-                    width={380}
-                    height={480}
-                    className="rounded-2xl shadow-xl"
-                    priority={true}
+                  {/* Decorative elements */}
+                  <motion.div
+                    className="absolute -z-10 w-64 h-64 rounded-full bg-gradient-start/10 blur-3xl"
+                    style={{ top: "10%", right: "20%" }}
+                    animate={{
+                      scale: [1, 1.2, 1],
+                    }}
+                    transition={{
+                      duration: 8,
+                      repeat: Number.POSITIVE_INFINITY,
+                      repeatType: "reverse",
+                    }}
                   />
 
-                  {/* Decorative dots */}
-                  <div className="absolute -left-4 top-1/4 flex flex-col gap-2">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <motion.div
-                        key={i}
-                        className="w-2 h-2 rounded-full bg-gradient-start"
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.8 + i * 0.1 }}
-                      />
-                    ))}
-                  </div>
+                  <motion.div
+                    className="absolute -z-10 w-48 h-48 rounded-full bg-gradient-end/10 blur-3xl"
+                    style={{ bottom: "10%", left: "20%" }}
+                    animate={{
+                      scale: [1, 1.3, 1],
+                    }}
+                    transition={{
+                      duration: 10,
+                      repeat: Number.POSITIVE_INFINITY,
+                      repeatType: "reverse",
+                      delay: 1,
+                    }}
+                  />
 
-                  <div className="absolute -right-4 top-1/3 flex flex-col gap-2">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <motion.div
-                        key={i}
-                        className="w-2 h-2 rounded-full bg-gradient-end"
-                        initial={{ opacity: 0, x: 10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.8 + i * 0.1 }}
-                      />
-                    ))}
-                  </div>
+                  {/* Image container with floating animation */}
+                  <motion.div
+                    className="relative z-10"
+                    animate={{
+                      y: [0, -10, 0],
+                    }}
+                    transition={{
+                      duration: 6,
+                      repeat: Number.POSITIVE_INFINITY,
+                      repeatType: "reverse",
+                    }}
+                  >
+                    <AnimatedImage
+                      src="/images/ahmad-profile.png"
+                      alt="Ahmad Harkous"
+                      width={380}
+                      height={480}
+                      className="rounded-2xl shadow-xl"
+                      priority={true}
+                    />
+
+                    {/* Decorative dots */}
+                    <div className="absolute -left-4 top-1/4 flex flex-col gap-2">
+                      {[1, 2, 3, 4, 5].map((i) => (
+                        <motion.div
+                          key={i}
+                          className="w-2 h-2 rounded-full bg-gradient-start"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.8 + i * 0.1 }}
+                        />
+                      ))}
+                    </div>
+
+                    <div className="absolute -right-4 top-1/3 flex flex-col gap-2">
+                      {[1, 2, 3, 4, 5].map((i) => (
+                        <motion.div
+                          key={i}
+                          className="w-2 h-2 rounded-full bg-gradient-end"
+                          initial={{ opacity: 0, x: 10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.8 + i * 0.1 }}
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
                 </motion.div>
-              </motion.div>
+              )}
             </div>
           </motion.div>
 
@@ -238,7 +246,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* About section with profile image re-added */}
+        {/* About section with profile image */}
         <motion.section
           id="about"
           className="py-20 md:py-32 bg-background"

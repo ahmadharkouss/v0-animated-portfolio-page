@@ -41,21 +41,47 @@ export async function POST(request: NextRequest) {
     const endOfDay = new Date(selectedDate);
     endOfDay.setHours(WORKING_HOURS_END, 0, 0, 0);
     
+    // Use the EMAIL_TO environment variable as the calendar ID
+    // This ensures we're checking the correct calendar
+    const calendarId = process.env.EMAIL_TO;
+    console.log(`Checking availability for calendar: ${calendarId}`);
+    
     // Query all events for the day
     const response = await calendar.events.list({
-      calendarId: 'primary',
+      calendarId,
       timeMin: startOfDay.toISOString(),
       timeMax: endOfDay.toISOString(),
       singleEvents: true,
     });
     
     const existingEvents = response.data.items || [];
+    console.log(`Found ${existingEvents.length} existing events for the selected date`);
     
     // Convert existing events to busy time ranges
     const busyRanges = existingEvents.map(event => {
       const start = new Date(event.start?.dateTime || event.start?.date || '');
       const end = new Date(event.end?.dateTime || event.end?.date || '');
       return { start, end };
+    });
+    
+    // Alternative: Use the freebusy query for more accurate results
+    const freeBusyResponse = await calendar.freebusy.query({
+      requestBody: {
+        timeMin: startOfDay.toISOString(),
+        timeMax: endOfDay.toISOString(),
+        items: [{ id: calendarId }]
+      }
+    });
+    
+    const busySlots = freeBusyResponse.data.calendars?.[calendarId]?.busy || [];
+    console.log(`Found ${busySlots.length} busy slots from freebusy API`);
+    
+    // Add these to our busy ranges
+    busySlots.forEach(slot => {
+      busyRanges.push({
+        start: new Date(slot.start || ''),
+        end: new Date(slot.end || '')
+      });
     });
     
     // Check each time slot against busy ranges, considering the meeting duration
@@ -98,12 +124,15 @@ export async function POST(request: NextRequest) {
       return !isOverlapping;
     });
     
+    console.log(`Returning ${availableTimes.length} available time slots`);
+    
     return NextResponse.json({
       availableTimes,
-      meetingDuration: durationMinutes
+      meetingDuration: durationMinutes,
+      calendarChecked: calendarId
     });
   } catch (error: any) {
-    console.error('Error checking available times:', error);
+    console.error('Error checking availability:', error);
     
     // If there's an error, return all time slots as a fallback
     return NextResponse.json({

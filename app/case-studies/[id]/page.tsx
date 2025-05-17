@@ -1,16 +1,18 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { notFound } from "next/navigation"
-import { Clock, Building, Lightbulb, CheckCircle, AlertTriangle, BarChart } from "lucide-react"
+import { Clock, Building, Lightbulb, CheckCircle, AlertTriangle, BarChart, ArrowLeft } from "lucide-react"
+import Link from "next/link"
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PageTransition } from "@/components/page-transition"
 import { useScrollTop } from "@/hooks/use-scroll-top"
+import { Button } from "@/components/ui/button"
 
 // This would typically come from a database or API
 const caseStudies = {
@@ -318,6 +320,8 @@ const caseStudies = {
 
 export default function CaseStudyPage({ params }: { params: { id: string } }) {
   const [mounted, setMounted] = useState(false)
+  // Properly unwrap the params object with React.use()
+  const unwrappedParams = React.use(Promise.resolve(params))
 
   // Scroll to top when the page loads
   useScrollTop()
@@ -326,8 +330,8 @@ export default function CaseStudyPage({ params }: { params: { id: string } }) {
     setMounted(true)
   }, [])
 
-  // Get the case study data
-  const caseStudy = caseStudies[params.id as keyof typeof caseStudies]
+  // Get the case study data using the unwrapped params
+  const caseStudy = caseStudies[unwrappedParams.id as keyof typeof caseStudies]
 
   // If the case study doesn't exist, return 404
   if (!caseStudy && mounted) {
@@ -342,6 +346,14 @@ export default function CaseStudyPage({ params }: { params: { id: string } }) {
   return (
     <PageTransition>
       <div className="max-w-4xl mx-auto">
+        {/* Add Back to Home button that links directly to homepage */}
+        <Button variant="ghost" asChild className="mb-8">
+          <Link href="/" className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Home
+          </Link>
+        </Button>
+
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <Badge className="mb-4">{caseStudy.industry}</Badge>
           <h1 className="text-3xl md:text-4xl font-bold mb-4">{caseStudy.title}</h1>

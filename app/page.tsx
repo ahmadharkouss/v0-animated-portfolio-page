@@ -380,45 +380,49 @@ export default function Home() {
           transition={{ duration: 0.5 }}
         >
           <div className="container">
-            <div className="flex flex-col items-center text-center mb-12">
+            <div className="flex flex-col items-center text-center mb-10">
               <AnimatedTitle title="Get In Touch" className="text-3xl md:text-4xl font-bold mb-4" />
               <div className="w-20 h-1 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end mb-8"></div>
               <p className="max-w-[800px] text-muted-foreground text-lg">
-                Have a project in mind or want to collaborate? Feel free to reach out!
+                Have a project in mind or want to collaborate? I'm always open to discussing new opportunities, 
+                innovative ideas, or potential collaborations. Feel free to reach out through the form below 
+                or connect with me directly via social media.
               </p>
             </div>
-            <div className="grid md:grid-cols-2 gap-12">
-              <div className="space-y-8">
-                <div className="flex items-start space-x-4">
-                  <div className="bg-gradient-to-r from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 p-3 rounded-full">
-                    <Mail className="h-6 w-6 text-gradient-start" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium mb-1">Email</h3>
-                    <p className="text-muted-foreground">hello@example.com</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="bg-gradient-to-r from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 p-3 rounded-full">
-                    <MessageSquare className="h-6 w-6 text-gradient-middle" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium mb-1">Social Media</h3>
-                    <div className="flex space-x-4 mt-2">
-                      <Link href="#" className="text-muted-foreground hover:text-gradient-start transition-colors">
-                        Twitter
-                      </Link>
-                      <Link href="#" className="text-muted-foreground hover:text-gradient-middle transition-colors">
-                        LinkedIn
-                      </Link>
-                      <Link href="#" className="text-muted-foreground hover:text-gradient-end transition-colors">
-                        GitHub
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            
+            {/* Full-width contact form with map and info */}
+            <div className="max-w-5xl mx-auto">
               <ContactForm />
+            </div>
+            
+            {/* Decorative elements */}
+            <div className="relative mt-16 max-w-5xl mx-auto">
+              <motion.div 
+                className="absolute -z-10 w-64 h-64 rounded-full bg-gradient-start/5 blur-3xl"
+                style={{ top: "-10%", left: "-5%" }}
+                animate={{
+                  scale: [1, 1.2, 1],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Number.POSITIVE_INFINITY,
+                  repeatType: "reverse",
+                }}
+              />
+              
+              <motion.div 
+                className="absolute -z-10 w-64 h-64 rounded-full bg-gradient-end/5 blur-3xl"
+                style={{ bottom: "-10%", right: "-5%" }}
+                animate={{
+                  scale: [1, 1.3, 1],
+                }}
+                transition={{
+                  duration: 10,
+                  repeat: Number.POSITIVE_INFINITY,
+                  repeatType: "reverse",
+                  delay: 1,
+                }}
+              />
             </div>
           </div>
         </motion.section>
@@ -454,27 +458,8 @@ export default function Home() {
               </div>
               <div className="flex flex-col items-center md:items-end">
                 <div className="flex space-x-4 mb-4">
-                  <Button variant="ghost" size="icon" asChild className="hover:text-gradient-start">
-                    <Link href="#">
-                      <span className="sr-only">Twitter</span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="lucide lucide-twitter"
-                      >
-                        <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
-                      </svg>
-                    </Link>
-                  </Button>
                   <Button variant="ghost" size="icon" asChild className="hover:text-gradient-middle">
-                    <Link href="#">
+                    <Link href="https://www.linkedin.com/in/ahmad-harkouss-843961205/" target="_blank" rel="noopener noreferrer">
                       <span className="sr-only">LinkedIn</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -495,7 +480,7 @@ export default function Home() {
                     </Link>
                   </Button>
                   <Button variant="ghost" size="icon" asChild className="hover:text-gradient-end">
-                    <Link href="#">
+                    <Link href="https://github.com/ahmadharkouss" target="_blank" rel="noopener noreferrer">
                       <span className="sr-only">GitHub</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

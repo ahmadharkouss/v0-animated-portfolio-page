@@ -58,15 +58,19 @@ export async function POST(request: NextRequest) {
     
     // First, check availability
     try {
+      const calendarId = process.env.EMAIL_TO || 'primary';
+      console.log(`Checking availability in calendar: ${calendarId}`);
+      
       const availabilityCheck = await calendar.freebusy.query({
         requestBody: {
           timeMin: startDateTime.toISOString(),
           timeMax: endDateTime.toISOString(),
-          items: [{ id: 'primary' }]
+          items: [{ id: calendarId }]
         }
       });
       
-      const busySlots = availabilityCheck.data.calendars?.primary?.busy || [];
+      const busySlots = availabilityCheck.data.calendars?.[calendarId]?.busy || [];
+      console.log(`Found ${busySlots.length} busy slots in the selected time range`);
       
       if (busySlots.length > 0) {
         // Time slot is already booked
@@ -202,9 +206,13 @@ export async function POST(request: NextRequest) {
         }
       };
       
+      // Get the calendar ID from environment variables
+      const calendarId = process.env.EMAIL_TO || 'primary';
+      console.log(`Creating event in calendar: ${calendarId}`);
+      
       // Basic event creation
       calendarResponse = await calendar.events.insert({
-        calendarId: process.env.EMAIL_TO || 'primary',
+        calendarId,
         requestBody: event
       });
       

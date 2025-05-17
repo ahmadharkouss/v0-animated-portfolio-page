@@ -590,7 +590,7 @@ ${zoomMeetingPassword ? `Meeting Password: ${zoomMeetingPassword}` : ''}
             
             <div className="space-y-2">
               <p className="text-xs text-muted-foreground">
-                By scheduling a call, you'll receive a confirmation email with a Zoom meeting link and calendar invitation.
+                By scheduling a call, you'll receive a confirmation email with a Zoom meeting link and code.
                 <br/>The call will be {formatDuration(duration)} in duration.
               </p>
             </div>

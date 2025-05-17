@@ -311,7 +311,8 @@ export async function POST(request: NextRequest) {
       calendarLink: `https://calendar.google.com/calendar/event?eid=${Buffer.from(
         calendarResponse?.data.id || ''
       ).toString('base64')}`,
-      zoomLink: zoomMeetingLink
+      zoomLink: zoomMeetingLink,
+      zoomPassword: zoomMeetingPassword
     });
   } catch (error: any) {
     console.error('Schedule call error:', error);

@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { CalendarIcon, Clock, Loader2, CheckCircle, Video, AlertCircle } from "lucide-react"
+import { CalendarIcon, Clock, Loader2, CheckCircle, Video, AlertCircle, Copy, Check, Link, Key } from "lucide-react"
 import { format } from "date-fns"
 import { useForm } from "react-hook-form"
 
@@ -31,6 +31,10 @@ export function ScheduleCall() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [calendarLink, setCalendarLink] = useState<string | null>(null)
   const [zoomLink, setZoomLink] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
+  const [copiedLink, setCopiedLink] = useState(false)
+  const [copiedCode, setCopiedCode] = useState(false)
+  const [zoomMeetingPassword, setZoomMeetingPassword] = useState<string | null>(null)
   
   // New states for availability
   const [availableTimeSlots, setAvailableTimeSlots] = useState<string[]>([])
@@ -142,13 +146,17 @@ export function ScheduleCall() {
         }
       }
 
-      // Save links if available
+      // Save links and password if available
       if (result.calendarLink) {
         setCalendarLink(result.calendarLink);
       }
       
       if (result.zoomLink) {
         setZoomLink(result.zoomLink);
+      }
+      
+      if (result.zoomPassword) {
+        setZoomMeetingPassword(result.zoomPassword);
       }
 
       toast({
@@ -189,6 +197,97 @@ export function ScheduleCall() {
     return `${mins} minutes`;
   };
 
+  const copyMeetingDetails = () => {
+    if (!zoomLink) return;
+    
+    // Prepare meeting details for copying
+    const meetingDate = date ? format(date, "PPP") : "";
+    const meetingDetails = `
+Meeting with Ahmad Harkous
+Date: ${meetingDate}
+Time: ${time}
+Duration: ${formatDuration(duration)}
+Zoom Meeting Link: ${zoomLink}
+${zoomMeetingPassword ? `Meeting Password: ${zoomMeetingPassword}` : ''}
+    `.trim();
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(meetingDetails).then(
+      () => {
+        setCopied(true);
+        toast({
+          title: "Copied!",
+          description: "Meeting details copied to clipboard",
+        });
+        
+        // Reset the copied state after 2 seconds
+        setTimeout(() => {
+          setCopied(false);
+        }, 2000);
+      },
+      (err) => {
+        console.error('Could not copy text: ', err);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to copy meeting details",
+        });
+      }
+    );
+  };
+
+  const copyZoomLink = () => {
+    if (!zoomLink) return;
+    
+    navigator.clipboard.writeText(zoomLink).then(
+      () => {
+        setCopiedLink(true);
+        toast({
+          title: "Copied!",
+          description: "Zoom meeting link copied to clipboard",
+        });
+        
+        setTimeout(() => {
+          setCopiedLink(false);
+        }, 2000);
+      },
+      (err) => {
+        console.error('Could not copy link: ', err);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to copy meeting link",
+        });
+      }
+    );
+  };
+
+  const copyZoomCode = () => {
+    if (!zoomMeetingPassword) return;
+    
+    navigator.clipboard.writeText(zoomMeetingPassword).then(
+      () => {
+        setCopiedCode(true);
+        toast({
+          title: "Copied!",
+          description: "Zoom meeting code copied to clipboard",
+        });
+        
+        setTimeout(() => {
+          setCopiedCode(false);
+        }, 2000);
+      },
+      (err) => {
+        console.error('Could not copy code: ', err);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to copy meeting code",
+        });
+      }
+    );
+  };
+
   return (
     <motion.div
       className="max-w-2xl mx-auto"
@@ -217,25 +316,79 @@ export function ScheduleCall() {
                   <Video className="h-5 w-5 text-[#2D8CFF]" />
                   <h4 className="font-medium">Zoom Meeting Details</h4>
                 </div>
+                
+                {/* Join Zoom Button */}
                 <a 
                   href={zoomLink} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-block bg-[#2D8CFF] hover:opacity-90 text-white py-3 px-6 rounded-md mb-3 w-full md:w-auto"
+                  className="inline-block bg-[#2D8CFF] hover:opacity-90 text-white py-3 px-6 rounded-md w-full text-center"
                 >
                   Join Zoom Meeting
                 </a>
                 
-                {calendarLink && (
-                  <a 
-                    href={calendarLink} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-block bg-[#4285F4] hover:bg-[#3367d6] text-white py-3 px-6 rounded-md ml-0 mt-3 md:ml-3 md:mt-0 w-full md:w-auto"
+                {/* Copy Buttons Row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                  <Button 
+                    onClick={copyZoomLink}
+                    variant="outline" 
+                    className="inline-flex items-center justify-center space-x-2"
+                    disabled={copiedLink}
                   >
-                    Add to Google Calendar
-                  </a>
-                )}
+                    {copiedLink ? (
+                      <>
+                        <Check className="h-4 w-4" />
+                        <span>Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Link className="h-4 w-4" />
+                        <span>Copy Meeting Link</span>
+                      </>
+                    )}
+                  </Button>
+                  
+                  {zoomMeetingPassword && (
+                    <Button 
+                      onClick={copyZoomCode}
+                      variant="outline" 
+                      className="inline-flex items-center justify-center space-x-2"
+                      disabled={copiedCode}
+                    >
+                      {copiedCode ? (
+                        <>
+                          <Check className="h-4 w-4" />
+                          <span>Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Key className="h-4 w-4" />
+                          <span>Copy Meeting Code</span>
+                        </>
+                      )}
+                    </Button>
+                  )}
+                </div>
+                
+                {/* Copy All Button */}
+                <Button 
+                  onClick={copyMeetingDetails}
+                  variant="outline" 
+                  className="mt-4 w-full inline-flex items-center justify-center space-x-2"
+                  disabled={copied}
+                >
+                  {copied ? (
+                    <>
+                      <Check className="h-4 w-4" />
+                      <span>Copied All Details!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-4 w-4" />
+                      <span>Copy All Meeting Details</span>
+                    </>
+                  )}
+                </Button>
               </div>
               
               <Button 

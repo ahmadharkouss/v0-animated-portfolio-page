@@ -86,7 +86,7 @@ export function ResumeSection() {
                   <div className="bg-gradient-start/10 rounded-full px-3 py-0.5 text-xs text-gradient-start">Full Time Internship</div>
                   <div className="flex items-center gap-1 text-sm text-muted-foreground">
                     <MapPin className="h-3 w-3 flex-shrink-0" />
-                    <span>Lyon, France</span>
+                    <span>Renault Trucks Factory, 402 Av. Charles de Gaulle, 69200 Vénissieux, FR</span>
                   </div>
                 </div>
                 <p className="text-muted-foreground">
@@ -125,7 +125,7 @@ export function ResumeSection() {
                   <div className="bg-gradient-middle/10 rounded-full px-3 py-0.5 text-xs text-gradient-middle">Full Time Internship</div>
                   <div className="flex items-center gap-1 text-sm text-muted-foreground">
                     <MapPin className="h-3 w-3 flex-shrink-0" />
-                    <span>Paris, France</span>
+                    <span>Lyon, Confluence 69002, FR</span>
                   </div>
                 </div>
                 <p className="text-muted-foreground">
@@ -394,6 +394,7 @@ export function ResumeSection() {
                     { name: "Cloud Integration for IoT: Azure IoT Operations", percentage: 95 },
                     { name: "On-premises and hybrid cloud solutions", percentage: 87 },
                     { name: "IoT Security", percentage: 78 },
+                    { name: "Azure Cloud Security: (Private and Public Endpoints, Azure Defender, Azure Sentinel, Azure Monitor)", percentage: 80 },
                   ]}
                 />
               </motion.div>
@@ -480,6 +481,7 @@ export function ResumeSection() {
                     { name: "Docker / Kubernetes", percentage: 80 },
                     { name: "CI/CD", percentage: 90 },
                     { name: "IaC: Terraform, Bicep, Packer, Ansible", percentage: 70 },
+                    { name: "GitOps, Flux", percentage: 75 },
                   ]}
                 />
               </motion.div>

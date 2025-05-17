@@ -8,6 +8,7 @@ import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { GradientText } from "@/components/gradient-text"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export function HeaderWithProgress() {
   const { scrollYProgress } = useScroll()
@@ -52,6 +53,7 @@ export function HeaderWithProgress() {
           <Link href="#contact" className="text-sm font-medium hover:text-gradient-start transition-colors">
             Contact
           </Link>
+          <ThemeToggle />
           <Button
             asChild
             className="bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
@@ -61,36 +63,39 @@ export function HeaderWithProgress() {
         </nav>
 
         {/* Mobile menu */}
-        <Sheet>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right">
-            <div className="flex flex-col gap-4 mt-8">
-              <Link href="#about" className="text-lg font-medium hover:text-gradient-start transition-colors">
-                About
-              </Link>
-              <Link href="#projects" className="text-lg font-medium hover:text-gradient-start transition-colors">
-                Projects
-              </Link>
-              <Link href="#case-studies" className="text-lg font-medium hover:text-gradient-start transition-colors">
-                Case Studies
-              </Link>
-              <Link href="#contact" className="text-lg font-medium hover:text-gradient-start transition-colors">
-                Contact
-              </Link>
-              <Button
-                asChild
-                className="mt-2 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
-              >
-                <Link href="#schedule">Schedule a Call</Link>
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
               </Button>
-            </div>
-          </SheetContent>
-        </Sheet>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <div className="flex flex-col gap-4 mt-8">
+                <Link href="#about" className="text-lg font-medium hover:text-gradient-start transition-colors">
+                  About
+                </Link>
+                <Link href="#projects" className="text-lg font-medium hover:text-gradient-start transition-colors">
+                  Projects
+                </Link>
+                <Link href="#case-studies" className="text-lg font-medium hover:text-gradient-start transition-colors">
+                  Case Studies
+                </Link>
+                <Link href="#contact" className="text-lg font-medium hover:text-gradient-start transition-colors">
+                  Contact
+                </Link>
+                <Button
+                  asChild
+                  className="mt-2 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
+                >
+                  <Link href="#schedule">Schedule a Call</Link>
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   )

@@ -106,54 +106,54 @@ export function ContactForm() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-card/50 backdrop-blur-sm rounded-xl shadow-lg border border-gradient-start/10 p-6 md:p-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 bg-card/50 backdrop-blur-sm rounded-xl shadow-lg border border-gradient-start/10 p-4 md:p-8">
       {/* Contact information and map */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="relative p-6 rounded-lg bg-card shadow-md border border-gradient-start/20 flex flex-col h-full"
+        className="relative p-4 md:p-6 rounded-lg bg-card shadow-md border border-gradient-start/20 flex flex-col h-full"
       >
         {/* Gradient accent in the corner */}
-        <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 rounded-br-full -z-10"></div>
+        <div className="absolute top-0 left-0 w-16 md:w-20 h-16 md:h-20 bg-gradient-to-br from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 rounded-br-full -z-10"></div>
 
-        <h3 className="text-xl font-semibold mb-6 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end bg-clip-text text-transparent">Contact Information</h3>
+        <h3 className="text-lg md:text-xl font-semibold mb-4 md:mb-6 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end bg-clip-text text-transparent">Contact Information</h3>
         
-        <div className="space-y-6 mb-8">
-          <div className="flex items-start gap-4">
-            <div className="bg-gradient-to-r from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 p-2 rounded-full">
-              <MapPin className="h-5 w-5 text-gradient-start" />
+        <div className="space-y-4 md:space-y-6 mb-6 md:mb-8">
+          <div className="flex items-start gap-3 md:gap-4">
+            <div className="bg-gradient-to-r from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 p-2 rounded-full flex-shrink-0">
+              <MapPin className="h-4 w-4 md:h-5 md:w-5 text-gradient-start" />
             </div>
             <div>
               <h4 className="font-medium text-sm mb-1">Location</h4>
-              <p className="text-muted-foreground">Lyon, France</p>
+              <p className="text-muted-foreground text-sm">Lyon, France</p>
             </div>
           </div>
           
-          <div className="flex items-start gap-4">
-            <div className="bg-gradient-to-r from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 p-2 rounded-full">
-              <Mail className="h-5 w-5 text-gradient-middle" />
+          <div className="flex items-start gap-3 md:gap-4">
+            <div className="bg-gradient-to-r from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 p-2 rounded-full flex-shrink-0">
+              <Mail className="h-4 w-4 md:h-5 md:w-5 text-gradient-middle" />
             </div>
-            <div>
+            <div className="min-w-0">
               <h4 className="font-medium text-sm mb-1">Email</h4>
-              <p className="text-muted-foreground">ahmad.harkous@gmail.com</p>
+              <p className="text-muted-foreground text-sm break-all">requests.ahmad.harkouss@gmail.com</p>
             </div>
           </div>
           
-          <div className="flex items-start gap-4">
-            <div className="bg-gradient-to-r from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 p-2 rounded-full">
-              <Phone className="h-5 w-5 text-gradient-end" />
+          <div className="flex items-start gap-3 md:gap-4">
+            <div className="bg-gradient-to-r from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 p-2 rounded-full flex-shrink-0">
+              <Phone className="h-4 w-4 md:h-5 md:w-5 text-gradient-end" />
             </div>
             <div>
               <h4 className="font-medium text-sm mb-1">Phone</h4>
-              <p className="text-muted-foreground">Available upon request</p>
+              <p className="text-muted-foreground text-sm">Available upon request</p>
             </div>
           </div>
         </div>
         
-        <h4 className="font-medium text-sm mb-3">Connect with me</h4>
-        <div className="flex gap-4 mb-6">
+        <h4 className="font-medium text-sm mb-2 md:mb-3">Connect with me</h4>
+        <div className="flex gap-3 md:gap-4 mb-4 md:mb-6">
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
             <Link 
               href="https://www.linkedin.com/in/ahmad-harkouss-843961205/" 
@@ -161,7 +161,7 @@ export function ContactForm() {
               rel="noopener noreferrer"
               className="bg-gradient-to-r from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 p-2 rounded-full hover:from-gradient-start/30 hover:via-gradient-middle/30 hover:to-gradient-end/30 transition-all inline-flex"
             >
-              <Linkedin className="h-5 w-5 text-gradient-middle" />
+              <Linkedin className="h-4 w-4 md:h-5 md:w-5 text-gradient-middle" />
             </Link>
           </motion.div>
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
@@ -171,15 +171,15 @@ export function ContactForm() {
               rel="noopener noreferrer" 
               className="bg-gradient-to-r from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 p-2 rounded-full hover:from-gradient-start/30 hover:via-gradient-middle/30 hover:to-gradient-end/30 transition-all inline-flex"
             >
-              <Github className="h-5 w-5 text-gradient-end" />
+              <Github className="h-4 w-4 md:h-5 md:w-5 text-gradient-end" />
             </Link>
           </motion.div>
         </div>
         
         {/* Lyon Google Maps Embed */}
         <div className="mt-auto flex-grow">
-          <h4 className="font-medium text-sm mb-3">Find me in Lyon</h4>
-          <div className="rounded-lg overflow-hidden w-full h-48 md:h-64 border border-gradient-start/20 shadow-md hover:shadow-lg transition-shadow duration-300">
+          <h4 className="font-medium text-sm mb-2 md:mb-3">Find me in Lyon</h4>
+          <div className="rounded-lg overflow-hidden w-full h-40 md:h-64 border border-gradient-start/20 shadow-md hover:shadow-lg transition-shadow duration-300">
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d89077.19185349513!2d4.7782899!3d45.7578137!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f4ea516ae88797%3A0x408ab2ae4bb21f0!2sLyon%2C%20France!5e0!3m2!1sen!2sus!4v1693554271915!5m2!1sen!2sus" 
               width="100%" 
@@ -200,12 +200,12 @@ export function ContactForm() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="relative p-6 rounded-lg bg-card shadow-md border border-gradient-start/20"
+        className="relative p-4 md:p-6 rounded-lg bg-card shadow-md border border-gradient-start/20"
       >
         {/* Gradient accent in the corner */}
-        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 rounded-bl-full -z-10"></div>
+        <div className="absolute top-0 right-0 w-16 md:w-20 h-16 md:h-20 bg-gradient-to-br from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 rounded-bl-full -z-10"></div>
 
-        <h3 className="text-xl font-semibold mb-6 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end bg-clip-text text-transparent">Send Me a Message</h3>
+        <h3 className="text-lg md:text-xl font-semibold mb-4 md:mb-6 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end bg-clip-text text-transparent">Send Me a Message</h3>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">

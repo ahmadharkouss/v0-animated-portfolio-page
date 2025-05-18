@@ -14,6 +14,8 @@ import { CaseStudyClientContent } from "@/components/case-study-client-content"
 
 // This would typically come from a database or API
 const caseStudies = {
+
+  /* 
   "smart-city-monitoring": {
     title: "Smart City Environmental Monitoring System",
     description:
@@ -314,6 +316,51 @@ const caseStudies = {
       },
     ],
   },
+  */
+  "distributed-agriculture-algorithms": {
+    title: "Distributed Algorithms for Smart Agriculture",
+    description:
+      "Implementation of a distributed monitoring system for smart agriculture using LEACH and LEACH-C clustering algorithms to optimize energy efficiency and scalability.",
+    fullDescription:
+      "This project implemented a distributed monitoring system for smart agriculture using interconnected sensors and decentralized algorithms (LEACH & LEACH-C). The objective was to enhance scalability, energy efficiency, and decision-making across large dynamic fields without centralized bottlenecks.",
+    image: "/images/agricilture.png",
+    industry: "Agriculture",
+    duration: "3 months",
+    client: "University Research Project",
+    technologies: ["IoT", "Distributed Systems", "Wireless Sensor Networks", "LEACH", "LEACH-C", "Clustering", "Data Optimization"],
+    challenge:
+      "Modern agriculture demands high efficiency and adaptability. Centralized monitoring often fails in real-time responsiveness and scalability across vast fields. The challenge was to design a system that adapts to dynamic environments, manages energy constraints, and sustains reliable communication.",
+    solution:
+      "Two clustering-based distributed algorithms were implemented: LEACH, a lightweight probabilistic protocol for forming energy-efficient clusters, and LEACH-C with K-Means & Cuckoo Search, offering centralized clustering with enhanced optimization and adaptability for dynamic environments. Both algorithms were modeled using Python and SimPy, simulating real-time mobile sensor scenarios.",
+    implementation: [
+      "Developed models of LEACH and LEACH-C clustering algorithms",
+      "Implemented K-Means clustering for comparative analysis",
+      "Created a Cuckoo Search optimization algorithm for cluster head selection",
+      "Built simulation environment using Python and SimPy for real-time testing",
+      "Modeled dynamic sensor node mobility for realistic agricultural scenarios",
+      "Designed energy consumption models for accurate performance measurement",
+      "Conducted extensive performance testing across various network configurations"
+    ],
+    results: [
+      "LEACH-C with Cuckoo Search outperformed all variants in energy conservation and network longevity",
+      "K-Means clustering showed faster convergence but less energy efficiency in dynamic networks",
+      "LEACH demonstrated good initial performance but lacked long-term stability",
+      "Dynamic model using LEACH-C + Cuckoo Search proved most effective for real-world agriculture use cases"
+    ],
+    challenges: [
+      "Balancing energy optimization with system reliability requirements",
+      "Ensuring time synchronization across mobile sensor nodes",
+      "Implementing efficient clustering and consensus mechanisms",
+      "Adapting to unpredictable environmental changes"
+    ],
+    
+    charts: [],
+    pdfReport: {
+      url: "/reports/Projet_Final___Algorithmes_Répartis.pdf",
+      language: "French",
+      description: "Comprehensive research report detailing the theoretical foundations and practical implementation of distributed algorithms for agricultural monitoring systems, including LEACH and LEACH-C variants."
+    }
+  }
 }
 
 export default function CaseStudyPage({ params }: { params: { id: string } }) {

@@ -161,7 +161,7 @@ export function ScheduleCall() {
 
       toast({
         title: "Call scheduled!",
-        description: `Your ${formatDuration(duration)} meeting is scheduled for ${format(date, "PPP")} at ${time}.`,
+        description: `Your ${formatDuration(duration)} meeting is scheduled for ${format(date, "PPP")} at ${time} (Lyon, France time).`,
       })
 
       // Reset form fields but keep the confirmation state
@@ -205,7 +205,7 @@ export function ScheduleCall() {
     const meetingDetails = `
 Meeting with Ahmad Harkous
 Date: ${meetingDate}
-Time: ${time}
+Time: ${time} (Lyon, France - CET/CEST timezone)
 Duration: ${formatDuration(duration)}
 Zoom Meeting Link: ${zoomLink}
 ${zoomMeetingPassword ? `Meeting Password: ${zoomMeetingPassword}` : ''}
@@ -308,7 +308,7 @@ ${zoomMeetingPassword ? `Meeting Password: ${zoomMeetingPassword}` : ''}
               </div>
               <h3 className="text-xl font-medium mt-4">Call Successfully Scheduled!</h3>
               <p className="text-muted-foreground max-w-md">
-                Your {formatDuration(duration)} meeting has been added to the calendar. You'll receive a confirmation email with details.
+                Your {formatDuration(duration)} meeting has been added to the calendar for {date ? format(date, "PPP") : ""} at {time} <span className="text-gradient-start">(Lyon, France timezone)</span>. You'll receive a confirmation email with details.
               </p>
 
               <div className="w-full mt-8 p-6 bg-gradient-start/5 rounded-lg border border-gradient-start/10">
@@ -440,7 +440,7 @@ ${zoomMeetingPassword ? `Meeting Password: ${zoomMeetingPassword}` : ''}
 
               <div className="space-y-2">
                 <label className="text-sm font-medium">
-                  Select Time <span className="text-destructive">*</span>
+                  Select Time <span className="text-destructive">*</span> <span className="text-xs font-normal text-muted-foreground">(Lyon, FR - CET/CEST Timezone)</span>
                   {isCheckingAvailability && <span className="ml-2 text-xs text-muted-foreground">(Checking availability...)</span>}
                 </label>
                 <Select 
@@ -500,6 +500,7 @@ ${zoomMeetingPassword ? `Meeting Password: ${zoomMeetingPassword}` : ''}
                     No available times on this date. Please select another date.
                   </p>
                 )}
+                
               </div>
             </div>
 

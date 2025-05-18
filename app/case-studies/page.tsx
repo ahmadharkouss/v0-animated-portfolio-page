@@ -13,6 +13,7 @@ export default function CaseStudiesPage() {
   useScrollTop()
 
   const caseStudies = [
+    /*
     {
       id: "smart-city-monitoring",
       title: "Smart City Environmental Monitoring System",
@@ -33,6 +34,7 @@ export default function CaseStudiesPage() {
       duration: "6 months",
       technologies: ["Edge Computing", "ML", "Vibration Sensors", "MQTT"],
     },
+ 
     {
       id: "precision-agriculture",
       title: "Precision Agriculture Monitoring System",
@@ -73,6 +75,19 @@ export default function CaseStudiesPage() {
       duration: "5 months",
       technologies: ["BLE Beacons", "WiFi Tracking", "Heat Mapping", "Analytics"],
     },
+
+    */
+
+    {
+      id: "distributed-agriculture-algorithms",
+      title: "Distributed Algorithms for Smart Agriculture",
+      description:
+        "Implementation of a distributed monitoring system for smart agriculture using LEACH and LEACH-C clustering algorithms to optimize energy efficiency and scalability.",
+      image: "/images/agricilture.png",
+      industry: "Agriculture",
+      duration: "3 months",
+      technologies: ["IoT", "Wireless Sensor Networks", "LEACH", "LEACH-C", "Clustering"],
+    }
   ]
 
   return (

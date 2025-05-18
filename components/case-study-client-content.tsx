@@ -3,19 +3,26 @@
 import React, { useEffect } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
-import { Clock, Building, Lightbulb, CheckCircle, AlertTriangle, BarChart } from "lucide-react"
+import { Clock, Building, Lightbulb, CheckCircle, AlertTriangle, BarChart, FileText, Download } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PageTransition } from "@/components/page-transition"
 import { useScrollTop } from "@/hooks/use-scroll-top"
+import { Button } from "@/components/ui/button"
 
 // Define the types for the case study data
 type Chart = {
   title: string;
   description: string;
   image: string;
+};
+
+type PDFReport = {
+  url: string;
+  language: string;
+  description: string;
 };
 
 type CaseStudy = {
@@ -33,6 +40,7 @@ type CaseStudy = {
   results: string[];
   challenges: string[];
   charts: Chart[];
+  pdfReport?: PDFReport;
 };
 
 interface CaseStudyClientContentProps {
@@ -87,7 +95,7 @@ export function CaseStudyClientContent({ caseStudy }: CaseStudyClientContentProp
       </motion.div>
 
       <Tabs defaultValue="challenge" className="mb-12">
-        <TabsList className="grid grid-cols-3 mb-8">
+        <TabsList className={`grid ${caseStudy.pdfReport ? 'grid-cols-4' : 'grid-cols-3'} mb-8`}>
           <TabsTrigger value="challenge" className="flex items-center gap-2">
             <AlertTriangle className="h-4 w-4" />
             <span>Challenge</span>
@@ -100,6 +108,12 @@ export function CaseStudyClientContent({ caseStudy }: CaseStudyClientContentProp
             <BarChart className="h-4 w-4" />
             <span>Results</span>
           </TabsTrigger>
+          {caseStudy.pdfReport && (
+            <TabsTrigger value="report" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              <span>Report</span>
+            </TabsTrigger>
+          )}
         </TabsList>
         <TabsContent value="challenge">
           <Card>
@@ -168,32 +182,72 @@ export function CaseStudyClientContent({ caseStudy }: CaseStudyClientContentProp
                 ))}
               </ul>
 
-              <h4 className="font-semibold mb-4">Data Visualization:</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {caseStudy.charts.map((chart, index) => (
-                  <motion.div
-                    key={index}
-                    className="space-y-2"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.2 }}
-                  >
-                    <div className="relative h-[200px] rounded-md overflow-hidden">
-                      <Image
-                        src={chart.image || "/placeholder.svg"}
-                        alt={chart.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <h5 className="font-medium">{chart.title}</h5>
-                    <p className="text-sm text-muted-foreground">{chart.description}</p>
-                  </motion.div>
-                ))}
-              </div>
+              {caseStudy.charts && caseStudy.charts.length > 0 && (
+                <>
+                  <h4 className="font-semibold mb-4">Data Visualization:</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {caseStudy.charts.map((chart, index) => (
+                      <motion.div
+                        key={index}
+                        className="space-y-2"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.2 }}
+                      >
+                        <div className="relative h-[200px] rounded-md overflow-hidden">
+                          <Image
+                            src={chart.image || "/placeholder.svg"}
+                            alt={chart.title}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <h5 className="font-medium">{chart.title}</h5>
+                        <p className="text-sm text-muted-foreground">{chart.description}</p>
+                      </motion.div>
+                    ))}
+                  </div>
+                </>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
+        
+        {caseStudy.pdfReport && (
+          <TabsContent value="report">
+            <Card>
+              <CardContent className="pt-6">
+                <h3 className="text-xl font-semibold mb-4">Research Report</h3>
+                <p className="text-muted-foreground mb-6">{caseStudy.pdfReport.description}</p>
+                
+                <div className="bg-muted/50 rounded-lg p-4 mb-6">
+                  <p className="font-medium mb-2">Report Details:</p>
+                  <ul className="space-y-1 text-sm">
+                    <li className="flex items-center gap-2">
+                      <span className="font-medium">Language:</span> {caseStudy.pdfReport.language}
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="font-medium">Format:</span> PDF
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="flex flex-col space-y-4">
+                  <Button asChild className="w-full md:w-auto bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white">
+                    <a href={caseStudy.pdfReport.url} target="_blank" rel="noopener noreferrer">
+                      <FileText className="mr-2 h-4 w-4" /> View Full Report
+                    </a>
+                  </Button>
+                  <Button asChild variant="outline" className="w-full md:w-auto">
+                    <a href={caseStudy.pdfReport.url} download>
+                      <Download className="mr-2 h-4 w-4" /> Download Report
+                    </a>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        )}
       </Tabs>
     </PageTransition>
   )

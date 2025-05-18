@@ -4,6 +4,7 @@ import { useRef } from "react"
 import Link from "next/link"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowRight, ChevronDown, Mail, MessageSquare, FileText } from "lucide-react"
+import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
 import { ContactForm } from "@/components/contact-form"
@@ -19,6 +20,8 @@ import { GradientText } from "@/components/gradient-text"
 import { HeaderWithProgress } from "@/components/header-with-progress"
 import { AboutProfile } from "@/components/about-profile"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { Badge } from "@/components/ui/badge"
+import { Clock } from "lucide-react"
 
 export default function Home() {
   const ref = useRef(null)
@@ -111,7 +114,7 @@ export default function Home() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                  A passionate developer creating innovative solutions at the intersection of hardware and software.
+                  I am currently completing my end-of-studies internship at <GradientText>Volvo</GradientText> Group Digital & IT and will be available for job opportunities starting in <GradientText>August 2025</GradientText>.
                 </motion.p>
 
                 <motion.div
@@ -261,8 +264,7 @@ export default function Home() {
               <div className="w-20 h-1 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end mb-8"></div>
               <AboutProfile />
               <p className="max-w-[800px] text-muted-foreground text-lg">
-                I'm a passionate IOT & Edge Computing Engineer with expertise in building innovative solutions that
-                bridge the gap between hardware and software. Here's a glimpse of my professional journey and skills.
+              I'm a passionate Computer Science Engineer with expertise in building innovative solutions that bridge the gap between OT and IT worlds.<br></br><br></br> Originally from Lebanon, I moved to France in 2020 at the age of 17 to pursue my higher education. Since then, I've been dedicated to developing cutting-edge technologies at the intersection of IoT, Edge, and Industry 5.0—focusing on creating smarter, more collaborative, and human-centric industrial systems.
               </p>
             </div>
             <ResumeSection />
@@ -287,7 +289,8 @@ export default function Home() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <ProjectCard
+              {/*
+                 <ProjectCard
                 title="Smart Home System"
                 description="An IoT-based smart home automation system with remote monitoring capabilities"
                 image="/placeholder.svg?height=300&width=500"
@@ -308,8 +311,43 @@ export default function Home() {
                 tags={["ESP32", "Sensors", "Solar Power", "Cloud Integration"]}
                 link="#"
               />
+              
+              */}
+              
+              {/* Coming Soon Message */}
+              <motion.div 
+                className="col-span-1 md:col-span-2 lg:col-span-3 flex flex-col items-center justify-center py-32 px-8 rounded-xl border border-gradient-start/20 bg-card/50 shadow-sm min-h-[500px]"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, type: "spring" }}
+              >
+                <motion.div 
+                  className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end bg-clip-text text-transparent mb-10 px-4"
+                  animate={{ 
+                    opacity: [0.7, 1, 0.7],
+                    scale: [0.98, 1.02, 0.98]
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                  }}
+                >
+                  Coming Soon
+                </motion.div>
+                <p className="text-muted-foreground text-center max-w-2xl text-lg mb-8">
+                  I'm currently working on documenting my most exciting projects. 
+                  Check back soon to explore my portfolio of IoT and Edge Computing solutions.
+                </p>
+                <div className="mt-4 flex gap-6">
+                  <div className="h-3 w-3 rounded-full bg-gradient-start animate-pulse" />
+                  <div className="h-3 w-3 rounded-full bg-gradient-middle animate-pulse" style={{ animationDelay: "0.5s" }} />
+                  <div className="h-3 w-3 rounded-full bg-gradient-end animate-pulse" style={{ animationDelay: "1s" }} />
+                </div>
+              </motion.div>
             </div>
-            <div className="flex justify-center mt-12">
+            {/*
+               <div className="flex justify-center mt-12">
               <Button
                 asChild
                 variant="outline"
@@ -321,6 +359,8 @@ export default function Home() {
                 </Link>
               </Button>
             </div>
+             */}
+         
           </div>
         </motion.section>
 
@@ -343,6 +383,8 @@ export default function Home() {
                 applications and technical solutions.
               </p>
             </div>
+
+            {/* 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredCaseStudies.map((study) => (
                 <CaseStudyCard
@@ -357,6 +399,108 @@ export default function Home() {
                 />
               ))}
             </div>
+            <div className="flex justify-center mt-12">
+              <Button
+                asChild
+                size="lg"
+                className="bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
+              >
+                <Link href="/case-studies">
+                  View All Case Studies <FileText className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+            */}
+            
+            {/* Agriculture Case Study Card */}
+            <motion.div 
+              className="max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="bg-card border border-gradient-start/20 rounded-lg p-6 shadow-lg relative overflow-hidden">
+                {/* Gradient accent in the corner */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 rounded-bl-full -z-10"></div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                  <div className="md:col-span-8">
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      <Badge className="bg-gradient-to-r from-emerald-500 to-green-600 text-white">Agriculture</Badge>
+                      <Badge className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">Team Project</Badge>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold mb-3">Distributed Algorithms for Smart Agriculture</h3>
+                    <p className="text-muted-foreground mb-4">
+                      Implementation of a distributed monitoring system for smart agriculture using LEACH and LEACH-C clustering algorithms,
+                      enhancing scalability, energy efficiency, and decision-making across large dynamic fields.
+                    </p>
+                    
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      <Badge variant="outline" className="border-gradient-start/30 bg-gradient-start/5">IoT</Badge>
+                      <Badge variant="outline" className="border-gradient-middle/30 bg-gradient-middle/5">Wireless Sensor Networks</Badge>
+                      <Badge variant="outline" className="border-gradient-end/30 bg-gradient-end/5">LEACH</Badge>
+                      <Badge variant="outline" className="border-gradient-start/30 bg-gradient-start/5">LEACH-C</Badge>
+                      <Badge variant="outline" className="border-gradient-middle/30 bg-gradient-middle/5">Clustering</Badge>
+                    </div>
+                    
+                    <div className="flex items-center text-sm text-muted-foreground mb-5">
+                      <Clock className="mr-2 h-4 w-4" />
+                      <span>Duration: 3 months</span>
+                    </div>
+                    
+                    <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                      <Button 
+                        asChild
+                        className="bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end hover:opacity-90 text-white"
+                      >
+                        <Link href="/reports/Projet_Final___Algorithmes_Répartis.pdf" target="_blank" rel="noopener noreferrer">
+                          <FileText className="mr-2 h-4 w-4" /> View Full Report (PDF)
+                        </Link>
+                      </Button>
+                    </motion.div>
+                    
+                    <p className="text-xs mt-2 text-muted-foreground">
+                      Note: The report is in French. You can download it to view with your preferred PDF reader.
+                    </p>
+                    
+                    
+                    <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="mt-3">
+                      <Button 
+                        asChild
+                        variant="outline"
+                        className="w-full"
+                      >
+                        <Link href="/case-studies/distributed-agriculture-algorithms">
+                          <ArrowRight className="mr-2 h-4 w-4" /> View Detailed Case Study
+                        </Link>
+                      </Button>
+                    </motion.div>
+
+                  </div>
+                  
+                  <div className="md:col-span-4">
+                    <motion.div 
+                      className="relative h-52 md:h-64 rounded-lg overflow-hidden border border-gradient-start/20"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <Image 
+                        src="/images/agricilture.png" 
+                        alt="Agriculture Case Study" 
+                        fill 
+                        className="object-cover" 
+                      />
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-br from-gradient-start/30 via-gradient-middle/30 to-gradient-end/30 opacity-0"
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </motion.div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
             <div className="flex justify-center mt-12">
               <Button
                 asChild

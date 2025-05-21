@@ -90,7 +90,31 @@ export function ResumeSection() {
                   </div>
                 </div>
                 <p className="text-muted-foreground">
-                  Developed and maintained IOT and Edge Computing systems for Volvo Group with azure cloud services.
+                  Worked in an international, cross-functional team across France, Poland,
+                  Sweden, and India, using Agile methodologies to contribute to Volvo's global
+                  digitalization strategy.
+                  <br /><br />
+                  Led technical meetings with Microsoft support team during the exploration
+                  phase of Azure IoT Operations, gathering insights and validating architectural
+                  design choices for industrial edge scenarios for volvo.
+                  <br /><br />
+                  Modernized an existing industrial ThingWorx application by designing and
+                  deploying a cloud-native edge computing solution using Kubernetes and
+                  Dapr, enabling secure and scalable data processing at the edge. The new
+                  solution adopts a microservices architecture for cycle-based tension
+                  prediction, with services that publish and subscribe to MQTT messages for
+                  real-time communication.
+                  <br /><br />
+                  Engineered & deployed hybrid cloud connectivity between on-premise
+                  factory systems (OPC-UA Servers, Factory-installed PCS) and the cloud to
+                  support secure remote monitoring and control using azure arc & iot operations.
+                  <br /><br />
+                  Designed and implemented data flows from IOT field data to Azure Event Hub
+                  for real-time industrial telemetry ingestion.
+                  <br /><br />
+                  Automated application deployment using Helm charts, GitOps - Flux, and
+                  CI/CD pipelines, ensuring consistent updates across on-prem distributed edge
+                  clusters.
                 </p>
               </div>
             </div>

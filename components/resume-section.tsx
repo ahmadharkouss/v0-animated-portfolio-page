@@ -25,29 +25,46 @@ export function ResumeSection() {
 
   return (
     <Tabs defaultValue="experience" className="w-full">
-      <TabsList className="grid w-full grid-cols-3 mb-8">
-        <TabsTrigger
-          value="experience"
-          className="flex items-center gap-2 data-[state=active]:bg-gradient-start/10 data-[state=active]:text-gradient-start"
+      <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        <TabsList className="grid w-full md:w-auto grid-cols-3">
+          <TabsTrigger
+            value="experience"
+            className="flex items-center gap-2 data-[state=active]:bg-gradient-start/10 data-[state=active]:text-gradient-start"
+          >
+            <Briefcase className="h-4 w-4" />
+            <span className="hidden sm:inline">Experience</span>
+          </TabsTrigger>
+          <TabsTrigger
+            value="education"
+            className="flex items-center gap-2 data-[state=active]:bg-gradient-middle/10 data-[state=active]:text-gradient-middle"
+          >
+            <GraduationCap className="h-4 w-4" />
+            <span className="hidden sm:inline">Education</span>
+          </TabsTrigger>
+          <TabsTrigger
+            value="skills"
+            className="flex items-center gap-2 data-[state=active]:bg-gradient-end/10 data-[state=active]:text-gradient-end"
+          >
+            <Code className="h-4 w-4" />
+            <span className="hidden sm:inline">Skills</span>
+          </TabsTrigger>
+        </TabsList>
+        
+        <motion.a 
+          href="/reports/AHMAD-HARKOUSS-RESUME.pdf" 
+          download
+          className="flex items-center gap-2 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end text-white px-4 py-2 rounded-md hover:opacity-90 transition-opacity whitespace-nowrap"
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
         >
-          <Briefcase className="h-4 w-4" />
-          <span className="hidden sm:inline">Experience</span>
-        </TabsTrigger>
-        <TabsTrigger
-          value="education"
-          className="flex items-center gap-2 data-[state=active]:bg-gradient-middle/10 data-[state=active]:text-gradient-middle"
-        >
-          <GraduationCap className="h-4 w-4" />
-          <span className="hidden sm:inline">Education</span>
-        </TabsTrigger>
-        <TabsTrigger
-          value="skills"
-          className="flex items-center gap-2 data-[state=active]:bg-gradient-end/10 data-[state=active]:text-gradient-end"
-        >
-          <Code className="h-4 w-4" />
-          <span className="hidden sm:inline">Skills</span>
-        </TabsTrigger>
-      </TabsList>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download CV
+        </motion.a>
+      </div>
 
       <TabsContent value="experience">
         <motion.div

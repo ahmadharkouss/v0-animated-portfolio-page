@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, Calendar } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -15,9 +15,10 @@ interface ProjectCardProps {
   image: string
   tags: string[]
   link: string
+  date?: string
 }
 
-export function ProjectCard({ title, description, image, tags, link }: ProjectCardProps) {
+export function ProjectCard({ title, description, image, tags, link, date }: ProjectCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -44,6 +45,12 @@ export function ProjectCard({ title, description, image, tags, link }: ProjectCa
         </motion.div>
         <CardHeader>
           <CardTitle>{title}</CardTitle>
+          {date && (
+            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+              <Calendar className="h-3 w-3" />
+              <span>{date}</span>
+            </div>
+          )}
           <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent className="flex-grow">

@@ -93,7 +93,7 @@ v0-animated-portfolio-page/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/v0-animated-portfolio-page.git
+   git clone https://github.com/ahmadharkouss/v0-animated-portfolio-page.git
    cd v0-animated-portfolio-page
    ```
 

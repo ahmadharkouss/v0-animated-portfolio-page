@@ -17,46 +17,76 @@ export default function ProjectsPage() {
 
   const projects = [
     {
-      title: "Smart Home System",
-      description: "An IoT-based smart home automation system with remote monitoring capabilities",
+      title: "IOT Smart Lock Management",
+      description: "A complete smart lock system from scratch involving both hardware and software development for door lock and user group management",
       image: "/placeholder.svg?height=300&width=500",
-      tags: ["IoT", "Raspberry Pi", "MQTT", "React"],
-      link: "#",
+      tags: [".NET", "C#", "Angular", "C", "IoT", "Hardware"],
+      link: "https://github.com/ahmadharkouss/IOT-Smart-Lock-Management",
+      date: "Mar 2024 - Jul 2024"
     },
     {
-      title: "Industrial Sensor Network",
-      description: "Edge computing solution for real-time industrial sensor data processing",
+      title: "IIoT AI Agents at the Edge",
+      description: "Edgentia is an industrial IoT edge platform that connects OPC UA devices to AI agents via MQTT, enabling real-time intelligent processing and analysis of industrial data at the edge. Features a modern visual pipeline builder for designing data flows between OPC UA servers, MQTT brokers, AI models (GPT-4o/Mistral), and time-series databases without coding.",
       image: "/placeholder.svg?height=300&width=500",
-      tags: ["Edge Computing", "LoRaWAN", "Time Series DB", "Python"],
+      tags: ["Go", ".NET", "C#", "Python", "React", "MQTT", "OPC UA", "AI", "GPT-4o", "Mistral"],
       link: "#",
+      date: "Jun 2025"
     },
     {
-      title: "Agricultural Monitoring",
-      description: "Low-power IoT system for monitoring soil conditions and automating irrigation",
+      title: "Manufacturing Digital Twin",
+      description: "Digital twin simulation tool that finds optimal manufacturing order based on XML configuration files",
       image: "/placeholder.svg?height=300&width=500",
-      tags: ["ESP32", "Sensors", "Solar Power", "Cloud Integration"],
-      link: "#",
+      tags: [".NET", "C#", "Digital Twin", "Manufacturing", "Simulation"],
+      link: "https://github.com/ahmadharkouss/digital-twin-.net",
+      date: "Feb 2024 - May 2024"
     },
     {
-      title: "Smart City Traffic Management",
-      description: "IoT solution for optimizing traffic flow and reducing congestion in urban areas",
+      title: "Personal Portfolio Website",
+      description: "Modern, animated personal portfolio website showcasing projects and skills with contact and scheduling functionality",
       image: "/placeholder.svg?height=300&width=500",
-      tags: ["Computer Vision", "Edge AI", "Traffic Sensors", "Dashboard"],
-      link: "#",
+      tags: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
+      link: "https://github.com/ahmadharkouss/v0-animated-portfolio-page",
+      date: "Mar 2025"
     },
     {
-      title: "Wearable Health Monitor",
-      description: "Low-power wearable device for continuous health monitoring with cloud connectivity",
+      title: "Ansible & Terraform Automation",
+      description: "Automated workflow using Ansible & Terraform inside Docker containers to manage Gitea infrastructure with runners",
       image: "/placeholder.svg?height=300&width=500",
-      tags: ["BLE", "Embedded C", "Health Sensors", "Mobile App"],
-      link: "#",
+      tags: ["Ansible", "Terraform", "HCL", "Docker", "DevOps", "Infrastructure"],
+      link: "https://github.com/ahmadharkouss/ansible_terraform_gitea",
+      date: "Jan 2025"
     },
     {
-      title: "Energy Monitoring System",
-      description: "Real-time energy consumption monitoring system for industrial facilities",
+      title: "Mini Twitter Backend",
+      description: "Production-ready backend environment for a social platform web app similar to Twitter with Apache2 reverse proxy",
       image: "/placeholder.svg?height=300&width=500",
-      tags: ["Power Meters", "Data Analytics", "Dashboard", "Energy Optimization"],
-      link: "#",
+      tags: ["Node.js", "Backend", "Social Media", "Apache2", "REST API"],
+      link: "https://github.com/ahmadharkouss/soa-mini-x",
+      date: "May 2024"
+    },
+    {
+      title: "MNIST Classifier MLOps",
+      description: "MNIST classifier with comprehensive monitoring stack: Prometheus, Grafana, AlertManager, and OpenTelemetry for performance tracking",
+      image: "/placeholder.svg?height=300&width=500",
+      tags: ["MLOps", "Prometheus", "Grafana", "OpenTelemetry", "Machine Learning", "Monitoring"],
+      link: "https://github.com/ahmadharkouss/mlops-mnist",
+      date: "Oct 2024"
+    },
+    {
+      title: "Vision Transformer Implementation",
+      description: "Simplified Vision Transformer (ViT) architecture implementation based on 'An Image is Worth 16x16 Words' paper by Dosovitskiy et al.",
+      image: "/placeholder.svg?height=300&width=500",
+      tags: ["Python", "Jupyter Notebook", "Deep Learning", "Computer Vision", "Transformers"],
+      link: "https://github.com/ahmadharkouss/dl-project",
+      date: "Dec 2024"
+    },
+    {
+      title: "Industrial AI Scraper",
+      description: "AI tool that scrapes latest news for industrial companies, cleans data, and extracts key events for CRM integration",
+      image: "/placeholder.svg?height=300&width=500",
+      tags: ["Python", "AI", "Web Scraping", "Data Processing", "CRM"],
+      link: "https://github.com/ahmadharkouss/ai-scraper",
+      date: "Oct 2025"
     },
   ]
 
@@ -75,8 +105,8 @@ export default function ProjectsPage() {
             <AnimatedTitle title="All Projects" className="text-3xl md:text-4xl font-bold mb-4" />
             <AnimatedDivider />
             <p className="max-w-[800px] text-muted-foreground text-lg">
-              Explore my complete portfolio of IoT and edge computing projects, showcasing innovative solutions across
-              various domains.
+              Explore my complete portfolio of software engineering projects, from IoT and edge computing to AI/ML, 
+              DevOps automation, and full-stack development solutions.
             </p>
           </div>
 
@@ -102,6 +132,7 @@ export default function ProjectsPage() {
                 image={project.image}
                 tags={project.tags}
                 link={project.link}
+                date={project.date}
               />
             ))}
           </motion.div>

@@ -52,10 +52,26 @@ export function ResumeSection() {
         
         <motion.a 
           href="/reports/AHMAD-HARKOUSS-RESUME.pdf" 
-          download
+          download="AHMAD-HARKOUSS-RESUME.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
           className="flex items-center gap-2 bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end text-white px-4 py-2 rounded-md hover:opacity-90 transition-opacity whitespace-nowrap"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
+          onClick={(e) => {
+            console.log('Download button clicked');
+            // Only use fallback if the browser doesn't support download attribute
+            if (!('download' in document.createElement('a'))) {
+              e.preventDefault();
+              const link = document.createElement('a');
+              link.href = '/reports/AHMAD-HARKOUSS-RESUME.pdf';
+              link.download = 'AHMAD-HARKOUSS-RESUME.pdf';
+              link.target = '_blank';
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
+          }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>

@@ -13,8 +13,9 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/images/profile-pic.jpg",
-        href: "/images/profile-pic.jpg",
+        url: "/favicon.svg",
+        href: "/favicon.svg",
+        type: "image/svg+xml",
       },
     ],
   },
@@ -29,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

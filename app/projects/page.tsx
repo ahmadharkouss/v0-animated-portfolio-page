@@ -30,7 +30,8 @@ export default function ProjectsPage() {
       image: "/placeholder.svg?height=300&width=500",
       tags: ["Go", ".NET", "C#", "Python", "React", "MQTT", "OPC UA", "AI", "GPT-4o", "Mistral"],
       link: "#",
-      date: "Jun 2025"
+      date: "Jun 2025",
+      isConfidential: true
     },
     {
       title: "Manufacturing Digital Twin",
@@ -133,6 +134,7 @@ export default function ProjectsPage() {
                 tags={project.tags}
                 link={project.link}
                 date={project.date}
+                isConfidential={project.isConfidential}
               />
             ))}
           </motion.div>

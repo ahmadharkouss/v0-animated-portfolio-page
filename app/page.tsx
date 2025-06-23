@@ -314,40 +314,34 @@ export default function Home() {
               
               */}
               
-              {/* Coming Soon Message */}
-              <motion.div 
-                className="col-span-1 md:col-span-2 lg:col-span-3 flex flex-col items-center justify-center py-32 px-8 rounded-xl border border-gradient-start/20 bg-card/50 shadow-sm min-h-[500px]"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, type: "spring" }}
-              >
-                <motion.div 
-                  className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-gradient-start via-gradient-middle to-gradient-end bg-clip-text text-transparent mb-10 px-4"
-                  animate={{ 
-                    opacity: [0.7, 1, 0.7],
-                    scale: [0.98, 1.02, 0.98]
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                  }}
-                >
-                  Coming Soon
-                </motion.div>
-                <p className="text-muted-foreground text-center max-w-2xl text-lg mb-8">
-                  I'm currently working on documenting my most exciting projects. 
-                  Check back soon to explore my portfolio of IoT and Edge Computing solutions.
-                </p>
-                <div className="mt-4 flex gap-6">
-                  <div className="h-3 w-3 rounded-full bg-gradient-start animate-pulse" />
-                  <div className="h-3 w-3 rounded-full bg-gradient-middle animate-pulse" style={{ animationDelay: "0.5s" }} />
-                  <div className="h-3 w-3 rounded-full bg-gradient-end animate-pulse" style={{ animationDelay: "1s" }} />
-                </div>
-              </motion.div>
+              {/* Featured Projects */}
+              <ProjectCard
+                title="IOT Smart Lock Management"
+                description="A complete smart lock system from scratch involving both hardware and software development for door lock and user group management"
+                image="/placeholder.svg?height=300&width=500"
+                tags={[".NET", "C#", "Angular", "C", "IoT", "Hardware"]}
+                link="https://github.com/ahmadharkouss/IOT-Smart-Lock-Management"
+                date="Mar 2024 - Jul 2024"
+              />
+              <ProjectCard
+                title="IIoT AI Agents at the Edge"
+                description="Edgentia: Industrial IoT edge platform connecting OPC UA devices to AI agents via MQTT for real-time intelligent processing"
+                image="/placeholder.svg?height=300&width=500"
+                tags={["Go", ".NET", "Python", "React", "MQTT", "OPC UA", "AI"]}
+                link="#"
+                date="Jun 2025"
+                isConfidential={true}
+              />
+              <ProjectCard
+                title="Manufacturing Digital Twin"
+                description="Digital twin simulation tool that finds optimal manufacturing order based on XML configuration files"
+                image="/placeholder.svg?height=300&width=500"
+                tags={[".NET", "C#", "Digital Twin", "Manufacturing", "Simulation"]}
+                link="https://github.com/ahmadharkouss/digital-twin-.net"
+                date="Feb 2024 - May 2024"
+              />
             </div>
-            {/*
-               <div className="flex justify-center mt-12">
+            <div className="flex justify-center mt-12">
               <Button
                 asChild
                 variant="outline"
@@ -359,7 +353,6 @@ export default function Home() {
                 </Link>
               </Button>
             </div>
-             */}
          
           </div>
         </motion.section>

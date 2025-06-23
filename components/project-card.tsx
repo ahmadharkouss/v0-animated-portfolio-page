@@ -1,13 +1,13 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Image from "next/image"
 import Link from "next/link"
 import { ExternalLink, Calendar } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { ProjectIcon } from "@/components/project-icon"
 
 interface ProjectCardProps {
   title: string
@@ -16,9 +16,10 @@ interface ProjectCardProps {
   tags: string[]
   link: string
   date?: string
+  isConfidential?: boolean
 }
 
-export function ProjectCard({ title, description, image, tags, link, date }: ProjectCardProps) {
+export function ProjectCard({ title, description, image, tags, link, date, isConfidential }: ProjectCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -32,16 +33,10 @@ export function ProjectCard({ title, description, image, tags, link, date }: Pro
         <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-gradient-start/20 via-gradient-middle/20 to-gradient-end/20 rounded-bl-full -z-10"></div>
 
         <motion.div
-          className="relative h-48 overflow-hidden"
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.3 }}
         >
-          <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover" />
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-gradient-start/30 via-gradient-middle/30 to-gradient-end/30 opacity-0"
-            whileHover={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          />
+          <ProjectIcon title={title} tags={tags} />
         </motion.div>
         <CardHeader>
           <CardTitle>{title}</CardTitle>
@@ -70,17 +65,32 @@ export function ProjectCard({ title, description, image, tags, link, date }: Pro
           </div>
         </CardContent>
         <CardFooter>
-          <motion.div className="w-full" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-            <Button
-              asChild
-              variant="outline"
-              className="w-full border-gradient-start/30 hover:bg-gradient-to-r hover:from-gradient-start/10 hover:via-gradient-middle/10 hover:to-gradient-end/10"
-            >
-              <Link href={link}>
-                View Project <ExternalLink className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </motion.div>
+          {isConfidential ? (
+            <div className="w-full p-3 text-center bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/20 border border-orange-200 dark:border-orange-800 rounded-md">
+              <div className="flex items-center justify-center gap-2 text-orange-700 dark:text-orange-300 text-sm font-medium mb-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-lock">
+                  <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                Startup SaaS Project
+              </div>
+              <p className="text-xs text-orange-600 dark:text-orange-400">
+                Confidential - Source code and architectural details not available
+              </p>
+            </div>
+          ) : (
+            <motion.div className="w-full" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+              <Button
+                asChild
+                variant="outline"
+                className="w-full border-gradient-start/30 hover:bg-gradient-to-r hover:from-gradient-start/10 hover:via-gradient-middle/10 hover:to-gradient-end/10"
+              >
+                <Link href={link}>
+                  View Project <ExternalLink className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </motion.div>
+          )}
         </CardFooter>
       </Card>
     </motion.div>

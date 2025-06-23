@@ -13,7 +13,7 @@
 
 This is a modern, fully animated personal portfolio website showcasing professional experience, projects, and skills. Built with cutting-edge web technologies, it features smooth animations, responsive design, and integrated contact/scheduling functionality.
 
-**Live Website**: [https://vercel.com/ahmadharkouss-projects/v0-animated-portfolio-page](https://vercel.com/ahmadharkouss-projects/v0-animated-portfolio-page)
+**Live Website**: [https://ahmadharkous.com](https://ahmadharkous.com)
 
 ## ✨ Features
 

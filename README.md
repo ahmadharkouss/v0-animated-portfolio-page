@@ -209,7 +209,7 @@ This project is configured for easy deployment on Vercel:
 2. **Environment Variables**: Add all required env vars in Vercel dashboard
 3. **Deploy**: Automatic deployments on every push to main branch
 
-**Live Site**: [https://vercel.com/ahmadharkouss-projects/v0-animated-portfolio-page](https://vercel.com/ahmadharkouss-projects/v0-animated-portfolio-page)
+**Live Site**: [hhttps://ahmadharkous.com](https://ahmadharkous.com)
 
 ## 🔗 v0.dev Integration
 
@@ -230,9 +230,9 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 ## 📧 Contact
 
 **Ahmad Harkouss**
-- Portfolio: [Live Website](https://vercel.com/ahmadharkouss-projects/v0-animated-portfolio-page)
-- Email: [Contact Form](https://vercel.com/ahmadharkouss-projects/v0-animated-portfolio-page#contact)
-- Schedule: [Book a Call](https://vercel.com/ahmadharkouss-projects/v0-animated-portfolio-page#schedule)
+- Portfolio: [Live Website](https://ahmadharkous.com)
+- Email: [Contact Form](https://ahmadharkous.com#contact)
+- Schedule: [Book a Call](https://ahmadharkous.com#schedule)
 
 ---
 

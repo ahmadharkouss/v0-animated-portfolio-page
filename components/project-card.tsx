@@ -75,7 +75,7 @@ export function ProjectCard({ title, description, image, tags, link, date, isCon
                 Startup SaaS Project
               </div>
               <p className="text-xs text-orange-600 dark:text-orange-400">
-                Confidential - Source code and architectural details not available
+                Confidential
               </p>
             </div>
           ) : (
